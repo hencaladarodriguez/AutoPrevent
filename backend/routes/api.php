@@ -134,4 +134,25 @@ switch ($action) {
             "path"   => $path,
             "method" => $method
         ]);
+
+    // -- MARCAS Y MODELOS (para el formulario de vehiculos) --
+    case 'GET marcas':
+        require_once 'models/Vehicle.php';
+        $database = new Database();
+        $vehicle  = new Vehicle($database->getConnection());
+        echo json_encode(["marcas" => $vehicle->getMarcas()]);
+        break;
+
+    case 'GET modelos':
+        require_once 'models/Vehicle.php';
+        $database = new Database();
+        $vehicle  = new Vehicle($database->getConnection());
+        $marca_id = $_GET['marca_id'] ?? null;
+        if (!$marca_id) {
+            http_response_code(400);
+            echo json_encode(["error" => "marca_id es obligatorio"]);
+            break;
+        }
+        echo json_encode(["modelos" => $vehicle->getModelosByMarca($marca_id)]);
+        break;
 }
