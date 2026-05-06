@@ -155,4 +155,41 @@ switch ($action) {
         }
         echo json_encode(["modelos" => $vehicle->getModelosByMarca($marca_id)]);
         break;
+
+        // -- SEMAFORO --
+    case 'GET semaforo':
+        require_once 'middleware/AuthMiddleware.php';
+        require_once 'models/Vehicle.php';
+        require_once 'utils/SemaphoreEngine.php';
+
+        $payload  = AuthMiddleware::verify();
+        $database = new Database();
+        $db       = $database->getConnection();
+        $vehicle  = new Vehicle($db);
+
+        // si viene id calculamos el semaforo de un vehiculo concreto
+        if ($id) {
+            $vehiculo = $vehicle->getOne($id, $payload['user_id']);
+            if (!$vehiculo) {
+                http_response_code(404);
+                echo json_encode(["error" => "Vehiculo no encontrado"]);
+                break;
+            }
+            echo json_encode(SemaphoreEngine::calcularEstado($vehiculo, $db));
+        } else {
+            // calculamos el semaforo de todos los vehiculos del usuario
+            $vehiculos  = $vehicle->getAll($payload['user_id']);
+            $resultados = [];
+            foreach ($vehiculos as $vehiculo) {
+                $resultados[] = [
+                    "vehiculo_id" => $vehiculo['id'],
+                    "matricula"   => $vehiculo['matricula'],
+                    "marca"       => $vehiculo['nombre_marca'],
+                    "modelo"      => $vehiculo['nombre_modelo'],
+                    "semaforo"    => SemaphoreEngine::calcularEstado($vehiculo, $db)
+                ];
+            }
+            echo json_encode(["vehiculos" => $resultados]);
+        }
+        break;
 }
