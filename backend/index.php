@@ -2,7 +2,8 @@
 // punto de entrada principal de la API AutoPrevent
 // todas las peticiones pasan por aqui
 
-header("Access-Control-Allow-Origin: http://localhost:3000");
+//Hacemos el cambio del puerto de http://localhost:3000 -> puerto asignado al ejecutar 'npm' http://localhost:<Puerto asignado> 
+header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
