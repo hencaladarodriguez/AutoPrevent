@@ -1,0 +1,42 @@
+/* estilos globales de AutoPrevent */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* colores del semaforo */
+.estado-verde {
+    color: #28a745;
+}
+
+.estado-amarillo {
+    color: #ffc107;
+}
+
+.estado-rojo {
+    color: #dc3545;
+}
+
+.badge-verde {
+    background-color: #28a745;
+}
+
+.badge-amarillo {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.badge-rojo {
+    background-color: #dc3545;
+}
+
+/* tarjetas de vehiculos */
+.card-vehiculo {
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.card-vehiculo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
