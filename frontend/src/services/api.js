@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 // url base del backend
+// url al tener en cuenta ya que se debe de cambiar en caso que en el xampp no este bien definida (pendiente de arreglar    )
 const API_URL = 'http://localhost:81/AutoPrevent/backend';
 
 const api = axios.create({

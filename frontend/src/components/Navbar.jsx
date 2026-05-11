@@ -12,7 +12,7 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+        <nav className="navbar navbar-expand-lg navbar-dark navbar-ap px-4">
             <Link className="navbar-brand fw-bold" to="/">
                 🚗 AutoPrevent
             </Link>
