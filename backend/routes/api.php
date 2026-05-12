@@ -192,4 +192,25 @@ switch ($action) {
             echo json_encode(["vehiculos" => $resultados]);
         }
         break;
+
+        // tipos de mantenimiento por modelo para el formulario
+    case 'GET historial':
+        $sub = $segments[1] ?? null;
+        if ($sub === 'tipos') {
+            require_once 'models/History.php';
+            $database = new Database();
+            $history  = new History($database->getConnection());
+            $modelo_id = $_GET['modelo_id'] ?? null;
+            if (!$modelo_id) {
+                http_response_code(400);
+                echo json_encode(["error" => "modelo_id es obligatorio"]);
+                break;
+            }
+            echo json_encode(["tipos" => $history->getTiposMantenimiento($modelo_id)]);
+            break;
+        }
+        require_once 'controllers/HistoryController.php';
+        $controller = new HistoryController();
+        $id ? $controller->getOne($id) : $controller->getAll();
+        break;
 }
