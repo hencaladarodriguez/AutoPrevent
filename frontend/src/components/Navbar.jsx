@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
@@ -8,12 +8,12 @@ export default function Navbar() {
 
     const handleLogout = () => {
         logout();
-        navigate('/login');
+        navigate('/');
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark navbar-ap px-4">
-            <Link className="navbar-brand fw-bold" to="/">
+        <nav className="navbar navbar-expand-lg navbar-ap px-4">
+            <Link className="navbar-brand" to="/">
                 🚗 AutoPrevent
             </Link>
 
@@ -29,33 +29,52 @@ export default function Navbar() {
             <div className="collapse navbar-collapse" id="navMenu">
                 <ul className="navbar-nav me-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/">Dashboard</Link>
+                        <NavLink className="nav-link" to="/" end>Inicio</NavLink>
                     </li>
+
+                    {/* panel de control solo aparece si hay sesion activa */}
+                    {usuario && (
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/dashboard">Panel de Control</NavLink>
+                        </li>
+                    )}
+
                     <li className="nav-item">
-                        <Link className="nav-link" to="/garage">Mi Garaje</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/historial">Historial</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/diagnostico">Diagnóstico</Link>
+                        <NavLink className="nav-link" to="/quienes-somos">Quienes somos</NavLink>
                     </li>
                 </ul>
 
                 <ul className="navbar-nav ms-auto align-items-center">
-                    <li className="nav-item me-3">
-                        <span className="text-light">
-                            👤 {usuario?.nombre}
-                        </span>
-                    </li>
-                    <li className="nav-item">
-                        <button
-                            className="btn btn-outline-light btn-sm"
-                            onClick={handleLogout}
-                        >
-                            Cerrar sesión
-                        </button>
-                    </li>
+                    {usuario ? (
+                        <>
+                            <li className="nav-item me-3">
+                                <span style={{ color: 'var(--ap-oscuro)', fontWeight: 500 }}>
+                                    Hola, "{usuario.nombre}"
+                                </span>
+                            </li>
+                            <li className="nav-item">
+                                <button
+                                    className="btn btn-sm"
+                                    style={{
+                                        background: 'transparent',
+                                        border: '1px solid var(--ap-oscuro)',
+                                        color: 'var(--ap-oscuro)',
+                                        borderRadius: '6px',
+                                        fontWeight: 500,
+                                    }}
+                                    onClick={handleLogout}
+                                >
+                                    Cerrar sesión
+                                </button>
+                            </li>
+                        </>
+                    ) : (
+                        <li className="nav-item">
+                            <Link className="btn-login-nav nav-link" to="/login">
+                                Iniciar sesión
+                            </Link>
+                        </li>
+                    )}
                 </ul>
             </div>
         </nav>

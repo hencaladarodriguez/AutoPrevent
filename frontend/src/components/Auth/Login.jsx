@@ -22,7 +22,7 @@ export default function Login() {
             const res = await api.post('/auth/login', { email, password });
             // guardamos el token y los datos del usuario
             login(res.data.token, res.data.usuario);
-            navigate('/');
+            navigate('/dashboard');
         } catch (err) {
             // si el servidor devuelve un error lo mostramos
             setError(err.response?.data?.error || 'Error al iniciar sesion');

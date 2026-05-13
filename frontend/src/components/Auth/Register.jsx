@@ -44,7 +44,7 @@ export default function Register() {
             });
             // si el registro va bien iniciamos sesion directamente
             login(res.data.token, res.data.usuario);
-            navigate('/');
+            navigate('/dashboard');
         } catch (err) {
             setError(err.response?.data?.error || 'Error al registrarse');
         } finally {
