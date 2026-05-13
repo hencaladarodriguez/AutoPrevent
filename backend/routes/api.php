@@ -213,4 +213,16 @@ switch ($action) {
         $controller = new HistoryController();
         $id ? $controller->getOne($id) : $controller->getAll();
         break;
+
+    case 'POST modelos':
+        require_once 'controllers/AdminController.php';
+        $admin = new AdminController();
+        $admin->createModelo();
+        break;
+    
+    case 'POST fallos':
+        require_once 'controllers/AdminController.php';
+        $admin = new AdminController();
+        $admin->createFallo();
+        break;
 }
