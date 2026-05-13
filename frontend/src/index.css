@@ -1,56 +1,58 @@
 /* === VARIABLES DE COLOR === */
 :root {
-    --ap-naranja:        #F97316;
-    --ap-naranja-oscuro: #EA580C;
-    --ap-naranja-claro:  #FED7AA;
-    --ap-naranja-fondo:  #FFF7F0;
-    --ap-oscuro:         #1C1C1E;
+    --ap-dorado:        #C8991A;
+    --ap-dorado-oscuro: #A67B00;
+    --ap-dorado-claro:  #EDD98A;
+    --ap-crema:         #FFFDF0;
+    --ap-navbar-bg:     #DDB94A;
+    --ap-card-bg:       #FFF8DC;
+    --ap-oscuro:        #1C1C1E;
 }
 
 /* === GLOBAL === */
 body {
-    background-color: var(--ap-naranja-fondo);
+    background-color: var(--ap-crema);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* === BOOTSTRAP OVERRIDES === */
 .btn-primary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: var(--ap-naranja);
-    --bs-btn-border-color: var(--ap-naranja);
+    --bs-btn-bg: var(--ap-dorado);
+    --bs-btn-border-color: var(--ap-dorado);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: var(--ap-naranja-oscuro);
-    --bs-btn-hover-border-color: var(--ap-naranja-oscuro);
-    --bs-btn-active-bg: var(--ap-naranja-oscuro);
-    --bs-btn-active-border-color: var(--ap-naranja-oscuro);
-    --bs-btn-focus-shadow-rgb: 249, 115, 22;
+    --bs-btn-hover-bg: var(--ap-dorado-oscuro);
+    --bs-btn-hover-border-color: var(--ap-dorado-oscuro);
+    --bs-btn-active-bg: var(--ap-dorado-oscuro);
+    --bs-btn-active-border-color: var(--ap-dorado-oscuro);
+    --bs-btn-focus-shadow-rgb: 200, 153, 26;
 }
 
 .btn-outline-primary {
-    --bs-btn-color: var(--ap-naranja);
-    --bs-btn-border-color: var(--ap-naranja);
+    --bs-btn-color: var(--ap-dorado);
+    --bs-btn-border-color: var(--ap-dorado);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: var(--ap-naranja);
-    --bs-btn-hover-border-color: var(--ap-naranja);
+    --bs-btn-hover-bg: var(--ap-dorado);
+    --bs-btn-hover-border-color: var(--ap-dorado);
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: var(--ap-naranja);
-    --bs-btn-focus-shadow-rgb: 249, 115, 22;
+    --bs-btn-active-bg: var(--ap-dorado);
+    --bs-btn-focus-shadow-rgb: 200, 153, 26;
 }
 
 .text-primary {
-    color: var(--ap-naranja) !important;
+    color: var(--ap-dorado) !important;
 }
 
 .spinner-border.text-primary {
-    color: var(--ap-naranja) !important;
-    border-color: var(--ap-naranja);
+    color: var(--ap-dorado) !important;
+    border-color: var(--ap-dorado);
     border-right-color: transparent;
 }
 
 .form-control:focus,
 .form-select:focus {
-    border-color: var(--ap-naranja);
-    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+    border-color: var(--ap-dorado);
+    box-shadow: 0 0 0 3px rgba(200, 153, 26, 0.2);
 }
 
 /* === COLORES DEL SEMAFORO === */
@@ -64,36 +66,76 @@ body {
 
 /* === NAVBAR === */
 .navbar-ap {
-    background-color: var(--ap-oscuro);
-    border-bottom: 3px solid var(--ap-naranja);
+    background-color: var(--ap-navbar-bg);
+    border-bottom: 3px solid var(--ap-dorado-oscuro);
 }
 
 .navbar-ap .navbar-brand {
-    color: var(--ap-naranja) !important;
+    color: var(--ap-oscuro) !important;
+    font-weight: 700;
 }
 
 .navbar-ap .navbar-brand:hover {
-    color: var(--ap-naranja-claro) !important;
+    color: var(--ap-oscuro) !important;
+    opacity: 0.8;
+}
+
+.navbar-ap .nav-link {
+    color: var(--ap-oscuro) !important;
+    font-weight: 500;
+}
+
+.navbar-ap .nav-link:hover,
+.navbar-ap .nav-link.active {
+    color: var(--ap-oscuro) !important;
+    text-decoration: underline;
+}
+
+.navbar-ap .navbar-toggler {
+    border-color: var(--ap-oscuro);
+}
+
+/* boton "Iniciar sesion" del navbar publico */
+.navbar-ap .btn-login-nav {
+    background-color: var(--ap-dorado);
+    color: #fff !important;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 16px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    text-decoration: none !important;
+}
+
+.navbar-ap .btn-login-nav:hover {
+    background-color: var(--ap-dorado-oscuro);
+    color: #fff !important;
 }
 
 /* === TARJETAS === */
+.card {
+    background-color: var(--ap-card-bg);
+}
+
 .card-vehiculo {
     transition: transform 0.2s, box-shadow 0.2s;
     cursor: pointer;
+    background-color: var(--ap-card-bg);
+    border: 1px solid var(--ap-dorado-claro);
 }
 
 .card-vehiculo:hover {
     transform: translateY(-3px);
-    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.25);
+    box-shadow: 0 4px 20px rgba(200, 153, 26, 0.3);
 }
 
 .card .card-header.bg-dark {
-    border-bottom: 2px solid var(--ap-naranja);
+    border-bottom: 2px solid var(--ap-dorado);
 }
 
 /* === LOGIN / REGISTER === */
 .login-wrapper {
-    background: linear-gradient(135deg, #1C1C1E 0%, #2D1810 50%, var(--ap-naranja-oscuro) 100%);
+    background: linear-gradient(135deg, #1a1208 0%, #2a1e08 50%, #3d2c0a 100%);
     min-height: 100vh;
 }
 
@@ -102,6 +144,7 @@ body {
     max-width: 420px;
     border: none;
     border-radius: 16px;
+    background-color: rgba(255, 248, 220, 0.95) !important;
 }
 
 .register-card {
@@ -109,6 +152,7 @@ body {
     max-width: 500px;
     border: none;
     border-radius: 16px;
+    background-color: rgba(255, 248, 220, 0.95) !important;
 }
 
 .login-icon {
@@ -120,6 +164,66 @@ body {
     padding: 10px;
     border-radius: 8px;
     font-size: 1rem;
+}
+
+/* === LANDING PAGE === */
+.landing-hero {
+    min-height: 100vh;
+    /* reemplaza este gradient con tu foto: background-image: url('/src/assets/garage-bg.jpg') */
+    background:
+        linear-gradient(rgba(10, 8, 2, 0.65), rgba(20, 14, 4, 0.78)),
+        linear-gradient(135deg, #1a1208 0%, #3d2a08 40%, #2a1e06 100%);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.landing-hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    padding: 2rem;
+}
+
+.landing-titulo {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: -1px;
+    text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.landing-subtitulo {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    font-weight: 300;
+    margin-top: 0.5rem;
+    text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.5);
+    opacity: 0.9;
+}
+
+.landing-cta {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* === QUIENES SOMOS === */
+.qs-hero {
+    background: linear-gradient(135deg, var(--ap-dorado-oscuro), var(--ap-dorado));
+    color: #fff;
+    padding: 4rem 0;
+}
+
+.qs-feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
 }
 
 /* === DASHBOARD === */
@@ -144,7 +248,7 @@ body {
     z-index: 1000;
 }
 
-/* --- HISTORIAL --- */
+/* === HISTORIAL === */
 .timeline-icono {
     width: 40px;
     flex-shrink: 0;
@@ -156,7 +260,7 @@ body {
 .timeline-linea {
     width: 2px;
     flex-grow: 1;
-    background-color: #dee2e6;
+    background-color: var(--ap-dorado-claro);
     margin-top: 4px;
     min-height: 20px;
 }
