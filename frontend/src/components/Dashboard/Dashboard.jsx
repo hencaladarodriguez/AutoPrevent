@@ -43,7 +43,7 @@ function TarjetaVehiculo({ vehiculo, semaforo }) {
     return (
         <div className="col-md-6 col-lg-4 mb-4">
             <div className="card card-vehiculo h-100 shadow-sm">
-                <div className="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <div className="card-header fw-bold d-flex justify-content-between align-items-center" style={{ backgroundColor: 'var(--ap-dorado)', color: '#1a1a1a' }}>
                     <span className="fw-bold">
                         {vehiculo.nombre_marca} {vehiculo.nombre_modelo}
                     </span>

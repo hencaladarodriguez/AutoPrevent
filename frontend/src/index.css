@@ -129,9 +129,6 @@ body {
     box-shadow: 0 4px 20px rgba(200, 153, 26, 0.3);
 }
 
-.card .card-header.bg-dark {
-    border-bottom: 2px solid var(--ap-dorado);
-}
 
 /* === LOGIN / REGISTER === */
 .login-wrapper {
