@@ -77,7 +77,7 @@ function TarjetaVehiculo({ vehiculo, semaforo }) {
                                     className={`alert py-1 px-2 mb-1 small badge-${check.estado}`}
                                     style={{ fontSize: '0.75rem' }}
                                 >
-                                    ⚠️ {check.nombre}: {check.mensaje}
+                                    {check.nombre}: {check.mensaje}
                                 </div>
                             ))}
                         </div>
@@ -157,7 +157,7 @@ export default function Dashboard() {
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h4 className="fw-bold mb-0">
-                            Bienvenido, {usuario?.nombre} 👋
+                            Bienvenido, {usuario?.nombre}
                         </h4>
                         <p className="text-muted mb-0">
                             Aquí tienes el estado de tus vehículos
@@ -213,7 +213,6 @@ export default function Dashboard() {
                 {/* vehiculos */}
                 {!cargando && vehiculos.length === 0 && (
                     <div className="text-center py-5">
-                        <p className="display-1">🚗</p>
                         <h5 className="text-muted">No tienes vehículos registrados</h5>
                         <Link to="/garage" className="btn btn-primary mt-2">
                             Añadir mi primer vehículo
