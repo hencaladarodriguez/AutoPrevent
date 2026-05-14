@@ -4,7 +4,7 @@
 
 class SemaphoreEngine {
 
-    // si quedan menos del 20% de km → amarillo
+    // aviso cuando queda menos del 20% del intervalo — da margen para pedir cita en el taller
     const UMBRAL_ADVERTENCIA = 0.20;
 
     // calcula el estado completo de un vehiculo

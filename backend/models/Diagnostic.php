@@ -11,7 +11,7 @@ class Diagnostic {
         $this->db = $db;
     }
 
-    // obtener fallos conocidos por modelo
+    // los fallos los precarga el admin, aquí solo los leemos ordenados por gravedad
     public function getFallosConocidos($modelo_id) {
         $query = "SELECT * FROM fallos_conocidos WHERE modelo_id = :modelo_id ORDER BY gravedad DESC";
         $stmt = $this->db->prepare($query);
@@ -20,7 +20,7 @@ class Diagnostic {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // obtener incidencias de usuarios por modelo
+    // la incidencia solo guarda vehiculo_id, así que necesito el JOIN para filtrar por modelo
     public function getIncidencias($modelo_id) {
         $query = "SELECT i.*, v.anio ";
         $query .= "FROM incidencias_usuarios i ";
@@ -53,9 +53,10 @@ class Diagnostic {
         return false;
     }
 
-    // votar incidencia
+    // el voto es un proceso de dos pasos: primero comprobamos duplicado, luego insertamos y sumamos
     public function votar($incidencia_id, $usuario_id) {
-        // comprobamos si ya voto
+        // la tabla votos_incidencias tiene un UNIQUE (incidencia_id, usuario_id) que lo blinda en BD
+        // pero compruebo antes para devolver un error claro en lugar de dejar que falle el INSERT
         $query = "SELECT id FROM votos_incidencias WHERE incidencia_id = :incidencia_id AND usuario_id = :usuario_id";
         $stmt  = $this->db->prepare($query);
         $stmt->bindParam(':incidencia_id', $incidencia_id);

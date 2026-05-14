@@ -1,6 +1,6 @@
 <?php
-// Controlador de autenticación
-// Gestiona el registro y login de usuarios y admin
+// gestiona el registro y login — tanto usuarios normales como admins
+// los admins tienen su propia tabla así que hay dos flujos separados
 
 require_once 'config/database.php';
 require_once 'config/jwt.php';
@@ -13,16 +13,14 @@ class AuthController {
         $this->db = $database->getConnection();
     }
 
-    // Registro de Usuario
+    // devuelve token directamente al registrarse para no obligar al usuario a hacer login después
     public function register(){
-        // Recogemos los datos del body
         $data = json_decode(file_get_contents("php://input"), true);
 
-        // Comprobamos la existencia de los campos
         if (
-            empty($data['nombre']) || 
-            empty($data['apellidos']) || 
-            empty($data['email']) || 
+            empty($data['nombre']) ||
+            empty($data['apellidos']) ||
+            empty($data['email']) ||
             empty($data['password'])
         ){
         http_response_code(400);
@@ -30,7 +28,7 @@ class AuthController {
         return;
         }
 
-        //Comprobamos si el email existe
+        // usamos 409 para que el front distinga entre campos vacíos (400) y email duplicado (409)
         $query = "SELECT id FROM usuarios WHERE email = :email";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':email', $data['email']);
@@ -42,11 +40,10 @@ class AuthController {
             return;
         }
 
-        //Encriptación de contraseña
+        // nunca guardamos la contraseña en plano, bcrypt gestiona el salt automáticamente
         $password_hash = password_hash($data['password'], PASSWORD_BCRYPT);
 
-        //Insertamos el usuario
-        $query= "INSERT INTO usuarios (nombre, apellidos, email, password) 
+        $query= "INSERT INTO usuarios (nombre, apellidos, email, password)
         VALUES (:nombre, :apellidos, :email, :password)";
         $stmt = $this -> db -> prepare($query);
         $stmt ->bindParam(':nombre', $data['nombre']); 
@@ -75,7 +72,8 @@ class AuthController {
         }
     }
 
-    //Login del usuario
+    // tanto si el email no existe como si la contraseña falla devolvemos el mismo mensaje
+    // así no filtramos si un email está registrado o no (seguridad básica)
     public function login(){
         $data = json_decode(file_get_contents("php://input"), true);
 
@@ -106,7 +104,7 @@ class AuthController {
             return;
         }
 
-        //Generación de token
+        // el token lleva el rol 'user' para que el middleware lo distinga del admin
         $token = JWT::generate($usuario['id'], $usuario['email'], 'user');
 
         echo json_encode([
@@ -121,7 +119,7 @@ class AuthController {
         ]);
     }
 
-    //Login de Admin
+    // el admin usa la misma lógica de JWT pero con rol 'admin', tabla separada
     public function adminLogin(){
         $data = json_decode(file_get_contents("php://input"), true);
 
