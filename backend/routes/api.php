@@ -55,6 +55,9 @@ switch ($action) {
                     case 'POST marcas':
                         $admin->createMarca();
                         break;
+                    case 'POST modelos':
+                        $admin->createModelo();
+                        break;
                     case 'GET fallos':
                         $admin->getFallos();
                         break;
@@ -65,6 +68,65 @@ switch ($action) {
                         http_response_code(404);
                         echo json_encode(["error" => "Ruta admin no encontrada"]);
                 }
+        }
+        break;
+
+    // -- MARCAS Y MODELOS (publicas para el formulario de vehiculos) --
+    case 'GET marcas':
+        require_once 'config/database.php';
+        require_once 'models/Vehicle.php';
+        $database = new Database();
+        $vehicle  = new Vehicle($database->getConnection());
+        echo json_encode(["marcas" => $vehicle->getMarcas()]);
+        break;
+
+    case 'GET modelos':
+        require_once 'config/database.php';
+        require_once 'models/Vehicle.php';
+        $database  = new Database();
+        $vehicle   = new Vehicle($database->getConnection());
+        $marca_id  = $_GET['marca_id'] ?? null;
+        if (!$marca_id) {
+            http_response_code(400);
+            echo json_encode(["error" => "marca_id es obligatorio"]);
+            break;
+        }
+        echo json_encode(["modelos" => $vehicle->getModelosByMarca($marca_id)]);
+        break;
+
+    // -- SEMAFORO --
+    case 'GET semaforo':
+        require_once 'config/database.php';
+        require_once 'middleware/AuthMiddleware.php';
+        require_once 'models/Vehicle.php';
+        require_once 'utils/SemaphoreEngine.php';
+
+        $payload  = AuthMiddleware::verify();
+        $database = new Database();
+        $db       = $database->getConnection();
+        $vehicle  = new Vehicle($db);
+
+        if ($id) {
+            $vehiculo = $vehicle->getOne($id, $payload['user_id']);
+            if (!$vehiculo) {
+                http_response_code(404);
+                echo json_encode(["error" => "Vehiculo no encontrado"]);
+                break;
+            }
+            echo json_encode(SemaphoreEngine::calcularEstado($vehiculo, $db));
+        } else {
+            $vehiculos  = $vehicle->getAll($payload['user_id']);
+            $resultados = [];
+            foreach ($vehiculos as $vehiculo) {
+                $resultados[] = [
+                    "vehiculo_id" => $vehiculo['id'],
+                    "matricula"   => $vehiculo['matricula'],
+                    "marca"       => $vehiculo['nombre_marca'],
+                    "modelo"      => $vehiculo['nombre_modelo'],
+                    "semaforo"    => SemaphoreEngine::calcularEstado($vehiculo, $db)
+                ];
+            }
+            echo json_encode(["vehiculos" => $resultados]);
         }
         break;
 
@@ -95,6 +157,21 @@ switch ($action) {
 
     // -- HISTORIAL --
     case 'GET historial':
+        // si viene /historial/tipos devolvemos los tipos de mantenimiento del modelo
+        if ($id === 'tipos') {
+            require_once 'config/database.php';
+            require_once 'models/History.php';
+            $database  = new Database();
+            $history   = new History($database->getConnection());
+            $modelo_id = $_GET['modelo_id'] ?? null;
+            if (!$modelo_id) {
+                http_response_code(400);
+                echo json_encode(["error" => "modelo_id es obligatorio"]);
+                break;
+            }
+            echo json_encode(["tipos" => $history->getTiposMantenimiento($modelo_id)]);
+            break;
+        }
         require_once 'controllers/HistoryController.php';
         $controller = new HistoryController();
         $id ? $controller->getOne($id) : $controller->getAll();
@@ -134,95 +211,5 @@ switch ($action) {
             "path"   => $path,
             "method" => $method
         ]);
-
-    // -- MARCAS Y MODELOS (para el formulario de vehiculos) --
-    case 'GET marcas':
-        require_once 'models/Vehicle.php';
-        $database = new Database();
-        $vehicle  = new Vehicle($database->getConnection());
-        echo json_encode(["marcas" => $vehicle->getMarcas()]);
-        break;
-
-    case 'GET modelos':
-        require_once 'models/Vehicle.php';
-        $database = new Database();
-        $vehicle  = new Vehicle($database->getConnection());
-        $marca_id = $_GET['marca_id'] ?? null;
-        if (!$marca_id) {
-            http_response_code(400);
-            echo json_encode(["error" => "marca_id es obligatorio"]);
-            break;
-        }
-        echo json_encode(["modelos" => $vehicle->getModelosByMarca($marca_id)]);
-        break;
-
-        // -- SEMAFORO --
-    case 'GET semaforo':
-        require_once 'middleware/AuthMiddleware.php';
-        require_once 'models/Vehicle.php';
-        require_once 'utils/SemaphoreEngine.php';
-
-        $payload  = AuthMiddleware::verify();
-        $database = new Database();
-        $db       = $database->getConnection();
-        $vehicle  = new Vehicle($db);
-
-        // si viene id calculamos el semaforo de un vehiculo concreto
-        if ($id) {
-            $vehiculo = $vehicle->getOne($id, $payload['user_id']);
-            if (!$vehiculo) {
-                http_response_code(404);
-                echo json_encode(["error" => "Vehiculo no encontrado"]);
-                break;
-            }
-            echo json_encode(SemaphoreEngine::calcularEstado($vehiculo, $db));
-        } else {
-            // calculamos el semaforo de todos los vehiculos del usuario
-            $vehiculos  = $vehicle->getAll($payload['user_id']);
-            $resultados = [];
-            foreach ($vehiculos as $vehiculo) {
-                $resultados[] = [
-                    "vehiculo_id" => $vehiculo['id'],
-                    "matricula"   => $vehiculo['matricula'],
-                    "marca"       => $vehiculo['nombre_marca'],
-                    "modelo"      => $vehiculo['nombre_modelo'],
-                    "semaforo"    => SemaphoreEngine::calcularEstado($vehiculo, $db)
-                ];
-            }
-            echo json_encode(["vehiculos" => $resultados]);
-        }
-        break;
-
-        // tipos de mantenimiento por modelo para el formulario
-    case 'GET historial':
-        $sub = $segments[1] ?? null;
-        if ($sub === 'tipos') {
-            require_once 'models/History.php';
-            $database = new Database();
-            $history  = new History($database->getConnection());
-            $modelo_id = $_GET['modelo_id'] ?? null;
-            if (!$modelo_id) {
-                http_response_code(400);
-                echo json_encode(["error" => "modelo_id es obligatorio"]);
-                break;
-            }
-            echo json_encode(["tipos" => $history->getTiposMantenimiento($modelo_id)]);
-            break;
-        }
-        require_once 'controllers/HistoryController.php';
-        $controller = new HistoryController();
-        $id ? $controller->getOne($id) : $controller->getAll();
-        break;
-
-    case 'POST modelos':
-        require_once 'controllers/AdminController.php';
-        $admin = new AdminController();
-        $admin->createModelo();
-        break;
-    
-    case 'POST fallos':
-        require_once 'controllers/AdminController.php';
-        $admin = new AdminController();
-        $admin->createFallo();
         break;
 }
