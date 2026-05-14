@@ -98,29 +98,9 @@ CREATE TABLE IF NOT EXISTS historial_mantenimiento (
     fecha DATE NOT NULL,
     coste DECIMAL(8,2),
     taller VARCHAR(150),
-    tipo_entrada ENUM('manual', 'alerta') DEFAULT 'manual',
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(id) ON DELETE CASCADE,
-    FOREIGN KEY (tipo_mantenimiento_id) REFERENCES tipos_mantenimiento(id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------
--- TABLA: alertas
--- Alertas automáticas generadas por el semáforo
--- --------------------------------------------
-CREATE TABLE IF NOT EXISTS alertas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    vehiculo_id INT NOT NULL,
-    tipo_mantenimiento_id INT,
-    tipo_alerta ENUM('mantenimiento', 'itv') NOT NULL,
-    estado ENUM('verde', 'amarillo', 'rojo') NOT NULL,
-    mensaje TEXT NOT NULL,
-    kilometraje_aviso INT,
-    fecha_aviso DATE,
-    resuelta TINYINT(1) DEFAULT 0,
-    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(id) ON DELETE CASCADE,
-    FOREIGN KEY (tipo_mantenimiento_id) REFERENCES tipos_mantenimiento(id)
+    FOREIGN KEY (tipo_mantenimiento_id) REFERENCES tipos_mantenimiento(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------
