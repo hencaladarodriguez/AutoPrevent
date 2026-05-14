@@ -45,9 +45,9 @@ class History {
     public function create($data) {
         $query  = "INSERT INTO " . $this->table . " ";
         $query .= "(vehiculo_id, tipo_mantenimiento_id, descripcion, ";
-        $query .= "kilometraje, fecha, coste, taller, tipo_entrada) ";
+        $query .= "kilometraje, fecha, coste, taller) ";
         $query .= "VALUES (:vehiculo_id, :tipo_mantenimiento_id, :descripcion, ";
-        $query .= ":kilometraje, :fecha, :coste, :taller, :tipo_entrada)";
+        $query .= ":kilometraje, :fecha, :coste, :taller)";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':vehiculo_id',          $data['vehiculo_id']);
@@ -57,7 +57,6 @@ class History {
         $stmt->bindParam(':fecha',                $data['fecha']);
         $stmt->bindParam(':coste',                $data['coste']);
         $stmt->bindParam(':taller',               $data['taller']);
-        $stmt->bindParam(':tipo_entrada',         $data['tipo_entrada']);
 
         if ($stmt->execute()) {
             return $this->db->lastInsertId();

@@ -88,9 +88,8 @@ class HistoryController {
 
         // campos opcionales
         $data['tipo_mantenimiento_id'] = $data['tipo_mantenimiento_id'] ?? null;
-        $data['coste'] = $data['coste'] ?? null;
+        $data['coste']  = $data['coste']  ?? null;
         $data['taller'] = $data['taller'] ?? null;
-        $data['tipo_entrada'] = $data['tipo_entrada'] ?? 'manual';
 
         $id = $this->history->create($data);
 

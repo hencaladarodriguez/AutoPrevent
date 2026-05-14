@@ -25,7 +25,7 @@ export default function WWAre() {
                             <p>
                                 <strong>AutoPrevent</strong> es una plataforma web desarrollada como
                                 Trabajo de Fin de Grado que permite digitalizar el historial técnico
-                                de vehículos y recibir alertas preventivas basadas en el uso registrado.
+                                de vehículos y conocer el estado real de su mantenimiento en tiempo real.
                             </p>
                             <p className="mb-0">
                                 El objetivo es pasar de un mantenimiento <em>reactivo</em> — actuar
