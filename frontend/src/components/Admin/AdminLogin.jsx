@@ -33,8 +33,7 @@ export default function AdminLogin() {
             <div className="login-card card shadow p-4">
 
                 <div className="text-center mb-4">
-                    <span className="login-icon">🔧</span>
-                    <h2 className="mt-2 fw-bold">Panel Admin</h2>
+                    <h2 className="fw-bold">Panel Admin</h2>
                     <p className="text-muted">AutoPrevent — Acceso restringido</p>
                 </div>
 

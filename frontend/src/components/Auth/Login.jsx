@@ -37,8 +37,7 @@ export default function Login() {
 
                 {/* cabecera */}
                 <div className="text-center mb-4">
-                    <span className="login-icon">🚗</span>
-                    <h2 className="mt-2 fw-bold">AutoPrevent</h2>
+                    <h2 className="fw-bold">AutoPrevent</h2>
                     <p className="text-muted">Inicia sesión en tu cuenta</p>
                 </div>
 
