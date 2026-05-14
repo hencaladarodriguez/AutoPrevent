@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import Navbar from '../Navbar';
 import api from '../../services/api';
 
-// componente que muestra el circulo del semaforo
+// lo separo en componente propio para reutilizarlo en cada tarjeta sin repetir lógica
 function Semaforo({ estado }) {
     const colores = {
         verde:    '#28a745',
@@ -34,10 +34,9 @@ function Semaforo({ estado }) {
     );
 }
 
-// tarjeta de cada vehiculo con su semaforo
+// muestra datos del vehiculo + semaforo + avisos activos (solo los que no están en verde)
 function TarjetaVehiculo({ vehiculo, semaforo }) {
 
-    // filtramos los checks en rojo o amarillo para mostrarlos
     const alertas = semaforo?.checks?.filter(c => c.estado !== 'verde') || [];
 
     return (
@@ -153,7 +152,6 @@ export default function Dashboard() {
 
             <div className="container mt-4">
 
-                {/* bienvenida */}
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h4 className="fw-bold mb-0">
@@ -168,7 +166,7 @@ export default function Dashboard() {
                     </Link>
                 </div>
 
-                {/* resumen de estados */}
+                {/* contadores — solo se muestran si hay al menos un vehiculo */}
                 {vehiculos.length > 0 && (
                     <div className="row mb-4">
                         <div className="col-4">
@@ -198,7 +196,6 @@ export default function Dashboard() {
                     </div>
                 )}
 
-                {/* estado de carga y errores */}
                 {cargando && (
                     <div className="text-center py-5">
                         <div className="spinner-border text-primary" role="status" />
@@ -210,7 +207,6 @@ export default function Dashboard() {
                     <div className="alert alert-danger">{error}</div>
                 )}
 
-                {/* vehiculos */}
                 {!cargando && vehiculos.length === 0 && (
                     <div className="text-center py-5">
                         <h5 className="text-muted">No tienes vehículos registrados</h5>

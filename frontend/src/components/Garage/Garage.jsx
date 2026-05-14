@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import Navbar from '../Navbar';
 import api from '../../services/api';
 
-// formulario para añadir o editar un vehiculo
+// reutilizo el mismo formulario para crear y editar — vehiculoEditar=null significa modo añadir
 function FormularioVehiculo({ vehiculoEditar, onGuardado, onCancelar }) {
 
     const [marcas, setMarcas]   = useState([]);
@@ -250,7 +250,7 @@ function FormularioVehiculo({ vehiculoEditar, onGuardado, onCancelar }) {
     );
 }
 
-// modal de confirmacion de borrado
+// pido confirmación antes de borrar para que no se elimine un coche por un clic accidental
 function ModalBorrar({ vehiculo, onConfirmar, onCancelar }) {
     return (
         <div className="modal-overlay">
@@ -347,7 +347,6 @@ export default function Garage() {
                     <div className="alert alert-danger">{error}</div>
                 )}
 
-                {/* formulario añadir/editar */}
                 {mostrarForm && (
                     <FormularioVehiculo
                         vehiculoEditar={vehiculoEditar}
@@ -359,7 +358,6 @@ export default function Garage() {
                     />
                 )}
 
-                {/* lista de vehiculos */}
                 {cargando && (
                     <div className="text-center py-5">
                         <div className="spinner-border text-primary" role="status" />
@@ -434,7 +432,6 @@ export default function Garage() {
 
             </div>
 
-            {/* modal de confirmacion */}
             {vehiculoBorrar && (
                 <ModalBorrar
                     vehiculo={vehiculoBorrar}

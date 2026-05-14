@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import Navbar from '../Navbar';
 import api from '../../services/api';
 
-// formulario para añadir un registro al historial
+// recibe modeloId para precargar los tipos de mantenimiento específicos de ese modelo
 function FormularioHistorial({ vehiculoId, modeloId, onGuardado, onCancelar }) {
 
     const [tipos, setTipos]       = useState([]);
@@ -192,7 +192,7 @@ function FormularioHistorial({ vehiculoId, modeloId, onGuardado, onCancelar }) {
     );
 }
 
-// entrada individual del timeline
+// si el registro tiene tipo vinculado muestra el nombre, si no pone 'Intervención manual'
 function EntradaHistorial({ registro, onEliminar }) {
 
     return (
@@ -332,7 +332,6 @@ export default function History() {
                     <div className="alert alert-danger">{error}</div>
                 )}
 
-                {/* selector de vehiculo */}
                 <div className="mb-4">
                     <div className="d-flex gap-2 flex-wrap">
                         {vehiculos.map(v => (
@@ -347,7 +346,6 @@ export default function History() {
                     </div>
                 </div>
 
-                {/* formulario añadir */}
                 {mostrarForm && vehiculoSel && (
                     <FormularioHistorial
                         vehiculoId={vehiculoSel.id}
@@ -357,7 +355,6 @@ export default function History() {
                     />
                 )}
 
-                {/* timeline */}
                 {cargando && (
                     <div className="text-center py-5">
                         <div className="spinner-border text-primary" role="status" />

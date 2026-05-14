@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import api from '../../services/api';
 
-// tarjeta de fallo conocido precargado por admin
+// solo lectura — los fallos los carga el admin, el usuario no puede modificarlos
 function TarjetaFalloConocido({ fallo }) {
 
     const coloresGravedad = {
@@ -38,7 +38,7 @@ function TarjetaFalloConocido({ fallo }) {
     );
 }
 
-// tarjeta de incidencia reportada por usuario
+// el botón de votos llama al padre para que recargue y actualice el contador tras votar
 function TarjetaIncidencia({ incidencia, onVotar }) {
     return (
         <div className="card shadow-sm mb-3">
@@ -68,7 +68,7 @@ function TarjetaIncidencia({ incidencia, onVotar }) {
     );
 }
 
-// formulario para reportar una incidencia
+// necesita la lista de vehiculos para que el usuario elija desde cuál está reportando
 function FormularioIncidencia({ vehiculos, onGuardado, onCancelar }) {
 
     const [form, setForm]         = useState({
@@ -307,7 +307,6 @@ export default function Diagnostic() {
                 {error && <div className="alert alert-danger">{error}</div>}
                 {aviso && <div className="alert alert-info py-2">{aviso}</div>}
 
-                {/* selector de vehiculo */}
                 <div className="mb-4">
                     <p className="text-muted small mb-2">
                         Selecciona un vehículo para ver su diagnóstico:
@@ -325,7 +324,6 @@ export default function Diagnostic() {
                     </div>
                 </div>
 
-                {/* formulario reportar incidencia */}
                 {mostrarForm && (
                     <FormularioIncidencia
                         vehiculos={vehiculos}
@@ -334,7 +332,6 @@ export default function Diagnostic() {
                     />
                 )}
 
-                {/* spinner */}
                 {cargando && (
                     <div className="text-center py-5">
                         <div className="spinner-border text-primary" role="status" />
@@ -342,7 +339,6 @@ export default function Diagnostic() {
                     </div>
                 )}
 
-                {/* sin vehiculo seleccionado */}
                 {!vehiculoSel && !cargando && (
                     <div className="text-center py-5">
                         <h5 className="text-muted">
@@ -351,11 +347,8 @@ export default function Diagnostic() {
                     </div>
                 )}
 
-                {/* contenido del diagnostico */}
                 {vehiculoSel && !cargando && (
                     <div className="row">
-
-                        {/* fallos conocidos */}
                         <div className="col-md-6">
                             <h5 className="fw-bold mb-3">
                                 Fallos conocidos
@@ -375,7 +368,6 @@ export default function Diagnostic() {
                             )}
                         </div>
 
-                        {/* incidencias de usuarios */}
                         <div className="col-md-6">
                             <h5 className="fw-bold mb-3">
                                 Incidencias de usuarios
