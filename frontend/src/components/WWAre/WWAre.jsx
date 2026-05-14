@@ -38,8 +38,7 @@ export default function WWAre() {
                         <div className="row g-3">
                             <div className="col-sm-6">
                                 <div className="card h-100 p-3 text-center">
-                                    <div className="qs-feature-icon">🚦</div>
-                                    <h5 className="fw-bold">Sistema Semáforo</h5>
+                                            <h5 className="fw-bold">Sistema Semáforo</h5>
                                     <p className="text-muted small mb-0">
                                         Verde, amarillo y rojo según el estado real de tus
                                         revisiones e ITV.
@@ -48,8 +47,7 @@ export default function WWAre() {
                             </div>
                             <div className="col-sm-6">
                                 <div className="card h-100 p-3 text-center">
-                                    <div className="qs-feature-icon">📋</div>
-                                    <h5 className="fw-bold">Historial técnico</h5>
+                                            <h5 className="fw-bold">Historial técnico</h5>
                                     <p className="text-muted small mb-0">
                                         Registra cada cambio de aceite, filtros, frenos y más
                                         en un timeline ordenado.
@@ -58,8 +56,7 @@ export default function WWAre() {
                             </div>
                             <div className="col-sm-6">
                                 <div className="card h-100 p-3 text-center">
-                                    <div className="qs-feature-icon">👥</div>
-                                    <h5 className="fw-bold">Diagnóstico colaborativo</h5>
+                                            <h5 className="fw-bold">Diagnóstico colaborativo</h5>
                                     <p className="text-muted small mb-0">
                                         Consulta fallos conocidos de tu modelo y comparte
                                         incidencias con otros usuarios.
@@ -68,8 +65,7 @@ export default function WWAre() {
                             </div>
                             <div className="col-sm-6">
                                 <div className="card h-100 p-3 text-center">
-                                    <div className="qs-feature-icon">🏠</div>
-                                    <h5 className="fw-bold">Garaje virtual</h5>
+                                            <h5 className="fw-bold">Garaje virtual</h5>
                                     <p className="text-muted small mb-0">
                                         Gestiona todos tus vehículos desde un único lugar,
                                         con toda su información centralizada.

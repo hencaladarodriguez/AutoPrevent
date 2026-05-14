@@ -14,7 +14,7 @@ export default function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-ap px-4">
             <Link className="navbar-brand" to="/">
-                🚗 AutoPrevent
+                AutoPrevent
             </Link>
 
             <button

@@ -51,17 +51,14 @@ export default function Landing() {
                 <div className="container">
                     <div className="row text-center text-white g-3">
                         <div className="col-md-4">
-                            <div className="fs-2 mb-1">🟢</div>
                             <div className="fw-semibold">Sistema Semáforo</div>
                             <small className="opacity-75">Estado de tu vehículo de un vistazo</small>
                         </div>
                         <div className="col-md-4">
-                            <div className="fs-2 mb-1">🔧</div>
                             <div className="fw-semibold">Historial Técnico</div>
                             <small className="opacity-75">Registra cada intervención</small>
                         </div>
                         <div className="col-md-4">
-                            <div className="fs-2 mb-1">👥</div>
                             <div className="fw-semibold">Diagnóstico Colaborativo</div>
                             <small className="opacity-75">Comparte y consulta incidencias</small>
                         </div>
