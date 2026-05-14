@@ -8,7 +8,7 @@
 -- Password: Admin1234 (hash bcrypt)
 -- --------------------------------------------
 INSERT INTO admins (nombre, email, password) VALUES
-('Administrador', 'admin@autoprevent.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
+('Administrador', 'admin@autoprevent.com', '$2y$10$DwVJEG0RcTQ/zQne5fvfjOe9.ZknFXtnsTYz5igCNm5k8X9I9saLO');
 
 -- --------------------------------------------
 -- MARCAS
