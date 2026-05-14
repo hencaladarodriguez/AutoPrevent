@@ -34,9 +34,20 @@ export default function Navbar() {
 
                     {/* panel de control solo aparece si hay sesion activa */}
                     {usuario && (
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/dashboard">Panel de Control</NavLink>
-                        </li>
+                        <>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/dashboard">Panel de Control</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/garage">Mi Garaje</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/historial">Historial</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/diagnostico">Diagnóstico</NavLink>
+                            </li>
+                        </>
                     )}
 
                     <li className="nav-item">
