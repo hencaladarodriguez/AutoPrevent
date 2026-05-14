@@ -91,8 +91,8 @@ function FormularioVehiculo({ vehiculoEditar, onGuardado, onCancelar }) {
 
     return (
         <div className="card shadow-sm mb-4">
-            <div className="card-header bg-dark text-white fw-bold">
-                {vehiculoEditar ? '✏️ Editar vehículo' : '➕ Añadir vehículo'}
+            <div className="card-header fw-bold" style={{ backgroundColor: 'var(--ap-dorado)', color: '#1a1a1a' }}>
+                {vehiculoEditar ? 'Editar vehículo' : 'Añadir vehículo'}
             </div>
             <div className="card-body">
 
@@ -327,7 +327,7 @@ export default function Garage() {
 
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h4 className="fw-bold mb-0">🚗 Mi Garaje</h4>
+                        <h4 className="fw-bold mb-0">Mi Garaje</h4>
                         <p className="text-muted mb-0">Gestiona tus vehículos</p>
                     </div>
                     {!mostrarForm && (
@@ -369,7 +369,6 @@ export default function Garage() {
 
                 {!cargando && vehiculos.length === 0 && !mostrarForm && (
                     <div className="text-center py-5">
-                        <p className="display-1">🚗</p>
                         <h5 className="text-muted">No tienes vehículos registrados</h5>
                         <button
                             className="btn btn-primary mt-2"
@@ -419,13 +418,13 @@ export default function Garage() {
                                         className="btn btn-outline-primary btn-sm flex-grow-1"
                                         onClick={() => handleEditar(vehiculo)}
                                     >
-                                        ✏️ Editar
+                                        Editar
                                     </button>
                                     <button
                                         className="btn btn-outline-danger btn-sm flex-grow-1"
                                         onClick={() => setVehiculoBorrar(vehiculo)}
                                     >
-                                        🗑️ Eliminar
+                                        Eliminar
                                     </button>
                                 </div>
                             </div>

@@ -117,7 +117,7 @@ export default function AdminPanel() {
         <div>
             {/* navbar admin */}
             <nav className="navbar navbar-dark bg-danger px-4">
-                <span className="navbar-brand fw-bold">🔧 AutoPrevent Admin</span>
+                <span className="navbar-brand fw-bold">AutoPrevent Admin</span>
                 <button
                     className="btn btn-outline-light btn-sm"
                     onClick={handleLogout}
@@ -170,7 +170,7 @@ export default function AdminPanel() {
                     <div className="row">
                         <div className="col-md-5">
                             <div className="card shadow-sm">
-                                <div className="card-header fw-bold">➕ Nueva marca</div>
+                                <div className="card-header fw-bold">Nueva marca</div>
                                 <div className="card-body">
                                     <form onSubmit={handleCrearMarca}>
                                         <div className="mb-3">
@@ -232,7 +232,7 @@ export default function AdminPanel() {
                     <div className="row">
                         <div className="col-md-5">
                             <div className="card shadow-sm">
-                                <div className="card-header fw-bold">➕ Nuevo modelo</div>
+                                <div className="card-header fw-bold">Nuevo modelo</div>
                                 <div className="card-body">
                                     <form onSubmit={handleCrearModelo}>
                                         <div className="mb-3">
@@ -337,7 +337,7 @@ export default function AdminPanel() {
                     <div className="row">
                         <div className="col-md-6">
                             <div className="card shadow-sm">
-                                <div className="card-header fw-bold">➕ Nuevo fallo conocido</div>
+                                <div className="card-header fw-bold">Nuevo fallo conocido</div>
                                 <div className="card-body">
                                     <form onSubmit={handleCrearFallo}>
 
