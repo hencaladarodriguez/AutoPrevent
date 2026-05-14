@@ -2,8 +2,9 @@
 // punto de entrada principal de la API AutoPrevent
 // todas las peticiones pasan por aqui
 
-//Hacemos el cambio del puerto de http://localhost:3000 -> puerto asignado al ejecutar 'npm' http://localhost:<Puerto asignado> 
-header("Access-Control-Allow-Origin: http://localhost:5173");
+// en local apunta a localhost:5173, en Railway permite cualquier origen
+// se puede restringir cuando se conozca la URL definitiva del frontend
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");

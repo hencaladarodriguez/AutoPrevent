@@ -1,13 +1,25 @@
 <?php
 // configuracion de la conexion a la base de datos
+// en local usa los valores de XAMPP por defecto
+// en Railway lee las variables que inyecta el plugin de MySQL automaticamente
 
 class Database {
-    private $host = "localhost";
-    private $port = "3306";
-    private $db_name = "autoprevent";
-    private $username = "root";
-    private $password = ""; // en xampp por defecto esta vacia
+    private $host     = "";
+    private $port     = "";
+    private $db_name  = "";
+    private $username = "";
+    private $password = "";
     private $conn;
+
+    public function __construct() {
+        // Railway inyecta MYSQLHOST, MYSQLPORT, MYSQLDATABASE, MYSQLUSER, MYSQLPASSWORD
+        // si no existen caemos al valor local de XAMPP
+        $this->host     = getenv('MYSQLHOST')     ?: 'localhost';
+        $this->port     = getenv('MYSQLPORT')     ?: '3306';
+        $this->db_name  = getenv('MYSQLDATABASE') ?: 'autoprevent';
+        $this->username = getenv('MYSQLUSER')     ?: 'root';
+        $this->password = getenv('MYSQLPASSWORD') ?: '';
+    }
 
     public function getConnection() {
         $this->conn = null;
@@ -22,7 +34,6 @@ class Database {
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         } catch (PDOException $e) {
-            // si falla la conexion devolvemos el error
             echo json_encode([
                 "error" => "Error de conexion: " . $e->getMessage()
             ]);

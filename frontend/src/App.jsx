@@ -12,7 +12,7 @@ import Diagnostic   from './components/Diagnostic/Diagnostic';
 import AdminLogin   from './components/Admin/AdminLogin';
 import AdminPanel   from './components/Admin/AdminPanel';
 
-// bloquea las rutas si no hay sesion iniciada 
+// bloquea las rutas si no hay sesion iniciada
 function RutaPrivada({ children }) {
     const { usuario } = useAuth();
     if (!usuario) {
