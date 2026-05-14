@@ -62,8 +62,8 @@ function FormularioHistorial({ vehiculoId, modeloId, onGuardado, onCancelar }) {
 
     return (
         <div className="card shadow-sm mb-4">
-            <div className="card-header bg-dark text-white fw-bold">
-                ➕ Añadir registro al historial
+            <div className="card-header fw-bold" style={{ backgroundColor: 'var(--ap-dorado)', color: '#1a1a1a' }}>
+                Añadir registro al historial
             </div>
             <div className="card-body">
 
@@ -196,24 +196,12 @@ function FormularioHistorial({ vehiculoId, modeloId, onGuardado, onCancelar }) {
 // entrada individual del timeline
 function EntradaHistorial({ registro, onEliminar }) {
 
-    const iconos = {
-        'Cambio de aceite':            '🛢️',
-        'Filtro de aire':              '💨',
-        'Filtro de habitáculo':        '🌬️',
-        'Pastillas de freno delanteras': '🛑',
-        'Correa de distribución':      '⚙️',
-        'Bujías':                      '⚡',
-        'Líquido de frenos':           '💧',
-    };
-
-    const icono = iconos[registro.tipo_nombre] || '🔧';
-
     return (
         <div className="timeline-entrada d-flex gap-3 mb-4">
 
-            {/* icono */}
+            {/* indicador de linea del timeline */}
             <div className="timeline-icono text-center">
-                <span style={{ fontSize: '1.5rem' }}>{icono}</span>
+                <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: 'var(--ap-dorado)', margin: '0 auto' }} />
                 <div className="timeline-linea" />
             </div>
 
@@ -228,19 +216,19 @@ function EntradaHistorial({ registro, onEliminar }) {
                             <p className="text-muted small mb-1">{registro.descripcion}</p>
                             <div className="d-flex gap-3 flex-wrap">
                                 <span className="small">
-                                    📅 {new Date(registro.fecha).toLocaleDateString('es-ES')}
+                                    {new Date(registro.fecha + 'T12:00:00').toLocaleDateString('es-ES')}
                                 </span>
                                 <span className="small">
-                                    🛣️ {parseInt(registro.kilometraje).toLocaleString()} km
+                                    {parseInt(registro.kilometraje).toLocaleString()} km
                                 </span>
                                 {registro.coste && (
                                     <span className="small">
-                                        💶 {parseFloat(registro.coste).toFixed(2)} €
+                                        {parseFloat(registro.coste).toFixed(2)} €
                                     </span>
                                 )}
                                 {registro.taller && (
                                     <span className="small">
-                                        🔧 {registro.taller}
+                                        {registro.taller}
                                     </span>
                                 )}
                             </div>
@@ -249,7 +237,7 @@ function EntradaHistorial({ registro, onEliminar }) {
                             className="btn btn-outline-danger btn-sm"
                             onClick={() => onEliminar(registro.id)}
                         >
-                            🗑️
+                            &times;
                         </button>
                     </div>
                 </div>
@@ -328,7 +316,7 @@ export default function History() {
 
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h4 className="fw-bold mb-0">📋 Historial de mantenimiento</h4>
+                        <h4 className="fw-bold mb-0">Historial de mantenimiento</h4>
                         <p className="text-muted mb-0">Registro de intervenciones de tus vehículos</p>
                     </div>
                     {vehiculoSel && !mostrarForm && (
@@ -354,7 +342,7 @@ export default function History() {
                                 className={`btn ${vehiculoSel?.id === v.id ? 'btn-dark' : 'btn-outline-dark'}`}
                                 onClick={() => seleccionarVehiculo(v)}
                             >
-                                🚗 {v.nombre_marca} {v.nombre_modelo} — {v.matricula}
+                                {v.nombre_marca} {v.nombre_modelo} — {v.matricula}
                             </button>
                         ))}
                     </div>
@@ -380,7 +368,6 @@ export default function History() {
 
                 {!cargando && vehiculoSel && historial.length === 0 && (
                     <div className="text-center py-5">
-                        <p className="display-1">📋</p>
                         <h5 className="text-muted">No hay registros para este vehículo</h5>
                         <button
                             className="btn btn-primary mt-2"
@@ -393,7 +380,6 @@ export default function History() {
 
                 {!vehiculoSel && !cargando && (
                     <div className="text-center py-5">
-                        <p className="display-1">👆</p>
                         <h5 className="text-muted">Selecciona un vehículo para ver su historial</h5>
                     </div>
                 )}

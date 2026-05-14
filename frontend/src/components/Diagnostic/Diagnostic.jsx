@@ -23,14 +23,14 @@ function TarjetaFalloConocido({ fallo }) {
                 <p className="text-muted small mb-2">{fallo.descripcion}</p>
                 {(fallo.km_inicio || fallo.km_fin) && (
                     <p className="small mb-2">
-                        🛣️ Frecuente entre{' '}
+                        Frecuente entre{' '}
                         {fallo.km_inicio ? fallo.km_inicio.toLocaleString() : '0'} km
                         {fallo.km_fin ? ` y ${fallo.km_fin.toLocaleString()} km` : ' en adelante'}
                     </p>
                 )}
                 {fallo.solucion && (
                     <div className="alert alert-light py-2 px-3 mb-0 small">
-                        <strong>💡 Solución:</strong> {fallo.solucion}
+                        <strong>Solución:</strong> {fallo.solucion}
                     </div>
                 )}
             </div>
@@ -49,17 +49,17 @@ function TarjetaIncidencia({ incidencia, onVotar }) {
                         className="btn btn-outline-primary btn-sm"
                         onClick={() => onVotar(incidencia.id)}
                     >
-                        👍 {incidencia.votos}
+                        {incidencia.votos} votos
                     </button>
                 </div>
                 <p className="text-muted small mb-2">{incidencia.descripcion}</p>
                 <div className="d-flex gap-3 flex-wrap">
                     <span className="small">
-                        📅 {new Date(incidencia.fecha).toLocaleDateString('es-ES')}
+                        {new Date(incidencia.fecha + 'T12:00:00').toLocaleDateString('es-ES')}
                     </span>
                     {incidencia.kilometraje && (
                         <span className="small">
-                            🛣️ {parseInt(incidencia.kilometraje).toLocaleString()} km
+                            {parseInt(incidencia.kilometraje).toLocaleString()} km
                         </span>
                     )}
                 </div>
@@ -108,8 +108,8 @@ function FormularioIncidencia({ vehiculos, onGuardado, onCancelar }) {
 
     return (
         <div className="card shadow-sm mb-4">
-            <div className="card-header bg-dark text-white fw-bold">
-                ⚠️ Reportar incidencia
+            <div className="card-header fw-bold" style={{ backgroundColor: 'var(--ap-dorado)', color: '#1a1a1a' }}>
+                Reportar incidencia
             </div>
             <div className="card-body">
 
@@ -289,7 +289,7 @@ export default function Diagnostic() {
 
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h4 className="fw-bold mb-0">🔍 Diagnóstico colaborativo</h4>
+                        <h4 className="fw-bold mb-0">Diagnóstico colaborativo</h4>
                         <p className="text-muted mb-0">
                             Fallos conocidos e incidencias de otros usuarios
                         </p>
@@ -299,7 +299,7 @@ export default function Diagnostic() {
                             className="btn btn-warning"
                             onClick={() => setMostrarForm(true)}
                         >
-                            ⚠️ Reportar incidencia
+                            Reportar incidencia
                         </button>
                     )}
                 </div>
@@ -319,7 +319,7 @@ export default function Diagnostic() {
                                 className={`btn ${vehiculoSel?.id === v.id ? 'btn-dark' : 'btn-outline-dark'}`}
                                 onClick={() => seleccionarVehiculo(v)}
                             >
-                                🚗 {v.nombre_marca} {v.nombre_modelo} — {v.matricula}
+                                {v.nombre_marca} {v.nombre_modelo} — {v.matricula}
                             </button>
                         ))}
                     </div>
@@ -345,7 +345,6 @@ export default function Diagnostic() {
                 {/* sin vehiculo seleccionado */}
                 {!vehiculoSel && !cargando && (
                     <div className="text-center py-5">
-                        <p className="display-1">🔍</p>
                         <h5 className="text-muted">
                             Selecciona un vehículo para ver su diagnóstico
                         </h5>
@@ -359,7 +358,7 @@ export default function Diagnostic() {
                         {/* fallos conocidos */}
                         <div className="col-md-6">
                             <h5 className="fw-bold mb-3">
-                                📋 Fallos conocidos
+                                Fallos conocidos
                                 <span className="badge bg-secondary ms-2 fw-normal">
                                     {fallos.length}
                                 </span>
@@ -367,7 +366,7 @@ export default function Diagnostic() {
 
                             {fallos.length === 0 ? (
                                 <div className="text-center py-4 text-muted">
-                                    <p>✅ No hay fallos conocidos registrados para este modelo</p>
+                                    <p>No hay fallos conocidos registrados para este modelo</p>
                                 </div>
                             ) : (
                                 fallos.map(fallo => (
@@ -379,7 +378,7 @@ export default function Diagnostic() {
                         {/* incidencias de usuarios */}
                         <div className="col-md-6">
                             <h5 className="fw-bold mb-3">
-                                👥 Incidencias de usuarios
+                                Incidencias de usuarios
                                 <span className="badge bg-secondary ms-2 fw-normal">
                                     {incidencias.length}
                                 </span>
