@@ -4,6 +4,12 @@
 -- Versión: 1.0
 -- ============================================
 
+CREATE DATABASE IF NOT EXISTS autoprevent
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
+USE autoprevent;
+
 SET FOREIGN_KEY_CHECKS = 0;
 SET NAMES utf8mb4;
 
