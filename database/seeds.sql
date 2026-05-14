@@ -7,8 +7,17 @@
 -- ADMIN por defecto
 -- Password: Admin1234 (hash bcrypt)
 -- --------------------------------------------
+USE autoprevent;
+
 INSERT INTO admins (nombre, email, password) VALUES
 ('Administrador', 'admin@autoprevent.com', '$2y$10$DwVJEG0RcTQ/zQne5fvfjOe9.ZknFXtnsTYz5igCNm5k8X9I9saLO');
+
+-- --------------------------------------------
+-- USUARIO de prueba
+-- Password: 1234 (hash bcrypt)
+-- --------------------------------------------
+INSERT INTO usuarios (nombre, apellidos, email, password) VALUES
+('Hugo', 'Encalada', 'hugo@gmail.com', '$2y$10$tmc6Kqirv9OQIKgECXfRS.BrqxRvWl4I6K7aW92q8YfmJYUsW3HEG');
 
 -- --------------------------------------------
 -- MARCAS
