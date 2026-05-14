@@ -29,7 +29,6 @@ function FormularioHistorial({ vehiculoId, modeloId, onGuardado, onCancelar }) {
             setTipos(res.data.tipos);
         } catch (err) {
             // si falla no pasa nada, el campo es opcional
-            console.log('no se pudieron cargar los tipos');
         }
     };
 
