@@ -203,6 +203,17 @@ switch ($action) {
         $sub === 'votar' ? $controller->votar($id) : $controller->create();
         break;
 
+    // -- DEBUG TEMPORAL (eliminar tras verificar) --
+    case 'GET debug':
+        echo json_encode([
+            'MYSQLHOST'     => getenv('MYSQLHOST')     ?: 'NOT SET',
+            'MYSQLPORT'     => getenv('MYSQLPORT')     ?: 'NOT SET',
+            'MYSQLDATABASE' => getenv('MYSQLDATABASE') ?: 'NOT SET',
+            'MYSQLUSER'     => getenv('MYSQLUSER')     ?: 'NOT SET',
+            'MYSQLPASSWORD' => getenv('MYSQLPASSWORD') ? 'SET' : 'NOT SET',
+        ]);
+        break;
+
     // -- RUTA NO ENCONTRADA --
     default:
         http_response_code(404);
