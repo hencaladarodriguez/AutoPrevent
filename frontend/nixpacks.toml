@@ -1,8 +1,10 @@
 [phases.setup]
-nixPkgs = ["nodejs_20"]
+nixPkgs = ["nodejs_22"]
 
 [phases.build]
-cmds = ["npm install", "npm run build"]
+# borramos node_modules y el lockfile de Windows antes de instalar
+# evita conflictos con bindings nativos de plataforma (rolldown, etc.)
+cmds = ["rm -rf node_modules package-lock.json", "npm install", "npm run build"]
 
 [start]
 cmd = "npx serve -s dist -l $PORT"
