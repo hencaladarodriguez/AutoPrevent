@@ -206,11 +206,14 @@ switch ($action) {
     // -- DEBUG TEMPORAL (eliminar tras verificar) --
     case 'GET debug':
         echo json_encode([
-            'MYSQLHOST'     => getenv('MYSQLHOST')     ?: 'NOT SET',
-            'MYSQLPORT'     => getenv('MYSQLPORT')     ?: 'NOT SET',
-            'MYSQLDATABASE' => getenv('MYSQLDATABASE') ?: 'NOT SET',
-            'MYSQLUSER'     => getenv('MYSQLUSER')     ?: 'NOT SET',
-            'MYSQLPASSWORD' => getenv('MYSQLPASSWORD') ? 'SET' : 'NOT SET',
+            'getenv_HOST'   => getenv('MYSQLHOST')     ?: 'NOT SET',
+            'env_HOST'      => $_ENV['MYSQLHOST']      ?? 'NOT SET',
+            'server_HOST'   => $_SERVER['MYSQLHOST']   ?? 'NOT SET',
+            'getenv_DB'     => getenv('MYSQLDATABASE') ?: 'NOT SET',
+            'env_DB'        => $_ENV['MYSQLDATABASE']  ?? 'NOT SET',
+            'server_DB'     => $_SERVER['MYSQLDATABASE'] ?? 'NOT SET',
+            'PORT_env'      => getenv('PORT')          ?: 'NOT SET',
+            'all_env_keys'  => array_keys($_ENV),
         ]);
         break;
 
