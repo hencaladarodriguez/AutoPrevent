@@ -205,16 +205,22 @@ switch ($action) {
 
     // -- DEBUG TEMPORAL (eliminar tras verificar) --
     case 'GET debug':
-        echo json_encode([
-            'getenv_HOST'   => getenv('MYSQLHOST')     ?: 'NOT SET',
-            'env_HOST'      => $_ENV['MYSQLHOST']      ?? 'NOT SET',
-            'server_HOST'   => $_SERVER['MYSQLHOST']   ?? 'NOT SET',
-            'getenv_DB'     => getenv('MYSQLDATABASE') ?: 'NOT SET',
-            'env_DB'        => $_ENV['MYSQLDATABASE']  ?? 'NOT SET',
-            'server_DB'     => $_SERVER['MYSQLDATABASE'] ?? 'NOT SET',
-            'PORT_env'      => getenv('PORT')          ?: 'NOT SET',
-            'all_env_keys'  => array_keys($_ENV),
-        ]);
+        $host   = getenv('MYSQLHOST')     ?: 'localhost';
+        $port   = getenv('MYSQLPORT')     ?: '3306';
+        $dbname = getenv('MYSQLDATABASE') ?: 'autoprevent';
+        $user   = getenv('MYSQLUSER')     ?: 'root';
+        $pass   = getenv('MYSQLPASSWORD') ?: '';
+        $result = ['vars' => ['host' => $host, 'port' => $port, 'db' => $dbname, 'user' => $user]];
+        try {
+            $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4", $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+            $tables = $pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
+            $result['connection'] = 'OK';
+            $result['tables'] = $tables;
+        } catch (Exception $e) {
+            $result['connection'] = 'ERROR';
+            $result['error'] = $e->getMessage();
+        }
+        echo json_encode($result);
         break;
 
     // -- RUTA NO ENCONTRADA --
