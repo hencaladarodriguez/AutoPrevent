@@ -5,4 +5,4 @@ RUN docker-php-ext-install pdo pdo_mysql
 WORKDIR /app
 COPY . .
 
-CMD php migrate.php && php -S 0.0.0.0:$PORT index.php
+CMD sh -c "php migrate.php && php -S 0.0.0.0:$PORT index.php"
