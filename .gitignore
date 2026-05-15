@@ -21,6 +21,9 @@ frontend/.vite/
 Thumbs.db
 desktop.ini
 
+# Lock files — se regeneran por plataforma
+frontend/package-lock.json
+
 # Logs y temporales
 *.log
 npm-debug.log*
