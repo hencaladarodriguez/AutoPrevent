@@ -13,21 +13,13 @@ echo "[migrate] Conectando a MySQL en $host:$port...\n";
 
 try {
     $pdo = new PDO(
-        "mysql:host=$host;port=$port;charset=utf8mb4",
+        "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4",
         $username,
         $password,
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
     );
 
-    // intentamos crear la BD — si Railway no lo permite usamos la que ya existe
-    try {
-        $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-        echo "[migrate] Base de datos '$dbname' lista.\n";
-    } catch (PDOException $e) {
-        echo "[migrate] No se pudo crear la BD (puede que ya exista): " . $e->getMessage() . "\n";
-    }
-
-    $pdo->exec("USE `$dbname`");
+    echo "[migrate] Conectado a la base de datos '$dbname'.\n";
 
     // si usuarios ya existe asumimos que la BD está migrada
     $stmt = $pdo->query("SHOW TABLES LIKE 'usuarios'");
