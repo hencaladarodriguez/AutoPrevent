@@ -203,26 +203,6 @@ switch ($action) {
         $sub === 'votar' ? $controller->votar($id) : $controller->create();
         break;
 
-    // -- DEBUG TEMPORAL (eliminar tras verificar) --
-    case 'GET debug':
-        $host   = getenv('MYSQLHOST')     ?: 'localhost';
-        $port   = getenv('MYSQLPORT')     ?: '3306';
-        $dbname = getenv('MYSQLDATABASE') ?: 'autoprevent';
-        $user   = getenv('MYSQLUSER')     ?: 'root';
-        $pass   = getenv('MYSQLPASSWORD') ?: '';
-        $result = ['vars' => ['host' => $host, 'port' => $port, 'db' => $dbname, 'user' => $user]];
-        try {
-            $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4", $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-            $tables = $pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
-            $result['connection'] = 'OK';
-            $result['tables'] = $tables;
-        } catch (Exception $e) {
-            $result['connection'] = 'ERROR';
-            $result['error'] = $e->getMessage();
-        }
-        echo json_encode($result);
-        break;
-
     // -- RUTA NO ENCONTRADA --
     default:
         http_response_code(404);

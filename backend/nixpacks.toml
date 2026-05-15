@@ -1,6 +1,0 @@
-[variables]
-NIXPACKS_PHP_EXTENSIONS = "pdo,pdo_mysql,mbstring"
-
-[start]
-# index.php como router script reemplaza el .htaccess — todo pasa por el mismo punto de entrada
-cmd = "php migrate.php && php -S 0.0.0.0:$PORT index.php"
