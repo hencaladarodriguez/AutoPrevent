@@ -37,7 +37,7 @@ class DiagnosticController {
         ]);
     }
 
-    // POST /diagnostico — crear incidencia
+    // crear incidencia
     public function create() {
         $payload = AuthMiddleware::verify();
         $data = json_decode(file_get_contents("php://input"), true);

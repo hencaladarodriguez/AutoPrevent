@@ -1,6 +1,5 @@
 <?php
-// CRUD de vehiculos — cada operacion verifica que el vehiculo pertenece al usuario
-// así evitamos que alguien modifique coches ajenos aunque tenga un token válido
+// CRUD de vehiculos, siempre comprobamos que el vehiculo sea del usuario
 
 require_once 'config/database.php';
 require_once 'middleware/AuthMiddleware.php';
@@ -17,7 +16,7 @@ class VehicleController {
         $this->vehicle = new Vehicle($this->db);
     }
 
-    // GET /vehiculos — devuelve solo los activos, los borrados con activo=0 no aparecen
+    // devuelve los vehiculos activos del usuario
     public function getAll() {
         $payload = AuthMiddleware::verify();
 
@@ -29,7 +28,7 @@ class VehicleController {
         ]);
     }
 
-    // GET /vehiculos/{id} — obtener un vehiculo
+    // obtener un vehiculo por id
     public function getOne($id) {
         $payload = AuthMiddleware::verify();
         $vehiculo = $this->vehicle->getOne($id, $payload['user_id']);
@@ -43,12 +42,12 @@ class VehicleController {
         echo json_encode(["vehiculo" => $vehiculo]);
     }
 
-    // POST /vehiculos — crear vehiculo
+    // crear vehiculo
     public function create() {
         $payload = AuthMiddleware::verify();
         $data = json_decode(file_get_contents("php://input"), true);
 
-        // vin y color son opcionales, lo que realmente identifica al vehiculo es modelo + matricula
+        // vin y color son opcionales
         if (
             empty($data['modelo_id']) ||
             empty($data['matricula']) ||
@@ -78,7 +77,7 @@ class VehicleController {
         }
     }
 
-    // PUT /vehiculos/{id} — hago merge manual porque no uso PATCH, simplifica el router
+    // actualizar vehiculo, merge manual para no perder campos no enviados
     public function update($id) {
         $payload = AuthMiddleware::verify();
         $data = json_decode(file_get_contents("php://input"), true);
@@ -91,7 +90,7 @@ class VehicleController {
             return;
         }
 
-        // si el front no manda un campo mantenemos el valor que ya tenía en BD
+        // mantenemos los valores actuales si no vienen en la peticion
         $data['modelo_id'] = $data['modelo_id'] ?? $vehiculo['modelo_id'];
         $data['matricula'] = $data['matricula'] ?? $vehiculo['matricula'];
         $data['vin'] = $data['vin'] ?? $vehiculo['vin'];
@@ -108,7 +107,7 @@ class VehicleController {
         }
     }
 
-    // DELETE /vehiculos/{id} — borrado lógico, el registro queda en BD con activo=0
+    // borrado logico, ponemos activo=0
     public function delete($id) {
         $payload = AuthMiddleware::verify();
         $vehiculo = $this->vehicle->getOne($id, $payload['user_id']);

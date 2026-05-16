@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import api from '../../services/api';
 
-// solo lectura — los fallos los carga el admin, el usuario no puede modificarlos
+// tarjeta de fallo conocido, solo lectura
 function TarjetaFalloConocido({ fallo }) {
 
     const coloresGravedad = {

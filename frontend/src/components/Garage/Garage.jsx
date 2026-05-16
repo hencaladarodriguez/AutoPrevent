@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import Navbar from '../Navbar';
 import api from '../../services/api';
 
-// reutilizo el mismo formulario para crear y editar — vehiculoEditar=null significa modo añadir
+// formulario compartido para crear y editar vehiculos, null = modo crear
 function FormularioVehiculo({ vehiculoEditar, onGuardado, onCancelar }) {
 
     const [marcas, setMarcas]   = useState([]);

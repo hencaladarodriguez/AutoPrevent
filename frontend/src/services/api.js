@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// en local apunta a XAMPP, en Railway se sobreescribe con VITE_API_URL en el panel de variables
+// URL del backend, si hay variable de entorno la usamos sino tiramos del local
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:81/AutoPrevent/backend';
 
 const api = axios.create({
@@ -10,8 +10,7 @@ const api = axios.create({
     }
 });
 
-// añade el token automaticamente en cada peticion
-// para no tener que ponerlo a mano cada vez
+// interceptor para añadir el token en cada peticion sin tener que hacerlo a mano
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
@@ -25,7 +24,7 @@ api.interceptors.request.use(
     }
 );
 
-// si el token caduca mandamos al login
+// si el servidor devuelve 401 limpiamos localStorage y redirigimos al login
 api.interceptors.response.use(
     (response) => response,
     (error) => {

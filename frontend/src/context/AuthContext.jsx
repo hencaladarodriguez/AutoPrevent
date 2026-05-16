@@ -1,12 +1,11 @@
 import { createContext, useState, useContext } from 'react';
 
-// contexto para manejar el login global
-// lo uso aqui para no andar pasando props de padre a hijo todo el rato
+// contexto de autenticacion global, evita pasar props entre componentes
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
 
-    // intento recuperar el usuario si ya habia iniciado sesion antes
+    // recuperamos usuario del localStorage si habia sesion guardada
     const [usuario, setUsuario] = useState(() => {
         try {
             const guardado = localStorage.getItem('usuario');
@@ -37,8 +36,7 @@ export function AuthProvider({ children }) {
     );
 }
 
-// hook personalizado para no tener que importar useContext
-// en cada componente que lo necesite
+// hook para usar el contexto sin importar useContext cada vez
 export function useAuth() {
     return useContext(AuthContext);
 }

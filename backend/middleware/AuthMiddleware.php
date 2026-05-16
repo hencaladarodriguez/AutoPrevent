@@ -1,12 +1,11 @@
 <?php
-// centralizo la verificación del token aquí para no repetir la lógica en cada controller
-// si falla el token cortamos con exit() para que no continúe ejecutándose nada más
+// verificacion del token centralizada aqui para no repetirla en cada controller
 
 require_once 'config/jwt.php';
 
 class AuthMiddleware {
 
-    // devuelve el payload si todo va bien, o corta la ejecución con 401
+    // si el token es valido devuelve el payload, sino corta con 401
     public static function verify() {
         $token = JWT::getFromHeader();
 
@@ -27,7 +26,7 @@ class AuthMiddleware {
         return $payload;
     }
 
-    // las rutas de admin necesitan además que el rol sea 'admin', un token de usuario normal no vale
+    // igual que verify pero ademas comprueba que sea admin
     public static function verifyAdmin() {
         $payload = self::verify();
 

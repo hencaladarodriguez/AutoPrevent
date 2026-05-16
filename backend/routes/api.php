@@ -17,7 +17,7 @@ $action = $method . ' ' . $resource;
 
 switch ($action) {
 
-    // -- AUTENTICACION --
+    // auth
     case 'POST auth':
         $sub = $segments[1] ?? '';
         require_once 'controllers/AuthController.php';
@@ -35,7 +35,7 @@ switch ($action) {
         }
         break;
 
-    // -- ADMIN --
+    // admin
     case 'POST admin':
     case 'GET admin':
         $sub = $segments[1] ?? '';
@@ -94,7 +94,7 @@ switch ($action) {
         echo json_encode(["modelos" => $vehicle->getModelosByMarca($marca_id)]);
         break;
 
-    // -- SEMAFORO --
+    // semaforo
     case 'GET semaforo':
         require_once 'config/database.php';
         require_once 'middleware/AuthMiddleware.php';
@@ -130,7 +130,7 @@ switch ($action) {
         }
         break;
 
-    // -- VEHICULOS --
+    // vehiculos
     case 'GET vehiculos':
         require_once 'controllers/VehicleController.php';
         $controller = new VehicleController();
@@ -155,7 +155,7 @@ switch ($action) {
         $controller->delete($id);
         break;
 
-    // -- HISTORIAL --
+    // historial
     case 'GET historial':
         // si viene /historial/tipos devolvemos los tipos de mantenimiento del modelo
         if ($id === 'tipos') {
@@ -189,7 +189,7 @@ switch ($action) {
         $controller->delete($id);
         break;
 
-    // -- DIAGNOSTICO --
+    // diagnostico
     case 'GET diagnostico':
         require_once 'controllers/DiagnosticController.php';
         $controller = new DiagnosticController();

@@ -1,6 +1,5 @@
 <?php
-// gestiona el registro y login — tanto usuarios normales como admins
-// los admins tienen su propia tabla así que hay dos flujos separados
+// controlador de autenticacion, usuarios y admins tienen tablas separadas
 
 require_once 'config/database.php';
 require_once 'config/jwt.php';
@@ -13,7 +12,7 @@ class AuthController {
         $this->db = $database->getConnection();
     }
 
-    // devuelve token directamente al registrarse para no obligar al usuario a hacer login después
+    // registro, devolvemos token directo para no tener que hacer login después
     public function register(){
         $data = json_decode(file_get_contents("php://input"), true);
 
@@ -28,7 +27,7 @@ class AuthController {
         return;
         }
 
-        // usamos 409 para que el front distinga entre campos vacíos (400) y email duplicado (409)
+        // 409 si el email ya existe, así el front lo distingue del 400
         $query = "SELECT id FROM usuarios WHERE email = :email";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':email', $data['email']);
@@ -40,7 +39,7 @@ class AuthController {
             return;
         }
 
-        // nunca guardamos la contraseña en plano, bcrypt gestiona el salt automáticamente
+        // hasheamos con bcrypt, nunca guardamos la contraseña en plano
         $password_hash = password_hash($data['password'], PASSWORD_BCRYPT);
 
         $query= "INSERT INTO usuarios (nombre, apellidos, email, password)
@@ -72,8 +71,7 @@ class AuthController {
         }
     }
 
-    // tanto si el email no existe como si la contraseña falla devolvemos el mismo mensaje
-    // así no filtramos si un email está registrado o no (seguridad básica)
+    // login, mismo error si no existe el email o si la contraseña falla
     public function login(){
         $data = json_decode(file_get_contents("php://input"), true);
 
@@ -83,7 +81,7 @@ class AuthController {
             return;
         }
 
-        //buscamso el usuario por email
+        // buscamos el usuario por email
         $query = "SELECT * FROM usuarios WHERE email = :email AND activo = 1";
         $stmt = $this -> db -> prepare($query);
         $stmt -> bindParam(':email', $data['email']);
@@ -97,14 +95,14 @@ class AuthController {
 
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        //Verificacmos la contraseña
+        // verificamos la contraseña
         if (!password_verify($data['password'], $usuario['password'])) {
             http_response_code(401);
             echo json_encode(["error" => "Credenciales incorrectas"]);
             return;
         }
 
-        // el token lleva el rol 'user' para que el middleware lo distinga del admin
+        // generamos token con rol 'user'
         $token = JWT::generate($usuario['id'], $usuario['email'], 'user');
 
         echo json_encode([
@@ -119,7 +117,7 @@ class AuthController {
         ]);
     }
 
-    // el admin usa la misma lógica de JWT pero con rol 'admin', tabla separada
+    // login de admin, mismo proceso pero con rol 'admin'
     public function adminLogin(){
         $data = json_decode(file_get_contents("php://input"), true);
 
