@@ -47,7 +47,7 @@ export default function AdminLogin() {
                         <input
                             type="email"
                             className="form-control"
-                            placeholder="admin@autoprevent.com"
+                            placeholder="tu@email.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -59,7 +59,7 @@ export default function AdminLogin() {
                         <input
                             type="password"
                             className="form-control"
-                            placeholder="••••••••"
+                            placeholder="Introduce tu contraseña"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required

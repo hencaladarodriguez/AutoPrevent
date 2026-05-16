@@ -78,7 +78,7 @@ export default function Register() {
                                 type="text"
                                 name="nombre"
                                 className="form-control"
-                                placeholder="Hugo"
+                                placeholder="Juan"
                                 value={form.nombre}
                                 onChange={handleChange}
                                 required
@@ -90,7 +90,7 @@ export default function Register() {
                                 type="text"
                                 name="apellidos"
                                 className="form-control"
-                                placeholder="Encalada Rodriguez"
+                                placeholder="Pérez García"
                                 value={form.apellidos}
                                 onChange={handleChange}
                                 required
@@ -117,7 +117,7 @@ export default function Register() {
                             type="password"
                             name="password"
                             className="form-control"
-                            placeholder="••••••••"
+                            placeholder="Introduce tu contraseña"
                             value={form.password}
                             onChange={handleChange}
                             required
@@ -130,7 +130,7 @@ export default function Register() {
                             type="password"
                             name="confirmar"
                             className="form-control"
-                            placeholder="••••••••"
+                            placeholder="Introduce tu contraseña de nuevo"
                             value={form.confirmar}
                             onChange={handleChange}
                             required
@@ -151,6 +151,13 @@ export default function Register() {
                     ¿Ya tienes cuenta?{' '}
                     <Link to="/login" className="text-primary fw-semibold">
                         Inicia sesión
+                    </Link>
+                </p>
+
+                {/* volver a la página principal */}
+                <p className="text-center mt-2 mb-0">
+                    <Link to="/" className="text-muted small">
+                        ← Volver al inicio
                     </Link>
                 </p>
 

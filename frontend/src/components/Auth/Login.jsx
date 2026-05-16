@@ -67,7 +67,7 @@ export default function Login() {
                         <input
                             type="password"
                             className="form-control"
-                            placeholder="••••••••"
+                            placeholder="Introduce tu contraseña"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
@@ -88,6 +88,13 @@ export default function Login() {
                     ¿No tienes cuenta?{' '}
                     <Link to="/register" className="text-primary fw-semibold">
                         Regístrate
+                    </Link>
+                </p>
+
+                {/* volver a la página principal */}
+                <p className="text-center mt-2 mb-0">
+                    <Link to="/" className="text-muted small">
+                        Volver al inicio
                     </Link>
                 </p>
 
