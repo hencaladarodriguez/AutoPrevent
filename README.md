@@ -20,6 +20,21 @@ El motor de semáforo evalúa el estado de cada vehículo según los kilómetros
 
 ---
 
+## Módulos principales
+
+| Módulo | Ruta | Descripción |
+|--------|------|-------------|
+| Landing | `/` | Página pública con CTA y features |
+| Autenticación | `/login`, `/register` | Registro e inicio de sesión con JWT |
+| Dashboard | `/dashboard` | Semáforo visual del estado de cada vehículo |
+| Garaje Virtual | `/garage` | CRUD de vehículos con borrado lógico |
+| Historial | `/historial` | Registro de intervenciones de mantenimiento |
+| Incidencias | `/diagnostico` | Fallos conocidos + incidencias colaborativas con votos |
+| Mi Perfil | `/perfil` | Editar datos, cambiar contraseña, eliminar cuenta |
+| Panel Admin | `/admin` | Gestión de catálogo y moderación de incidencias |
+
+---
+
 ## Tecnologías
 
 | Capa | Tecnología |
@@ -28,6 +43,7 @@ El motor de semáforo evalúa el estado de cada vehículo según los kilómetros
 | Frontend | React 19 + Bootstrap 5 |
 | Base de datos | MySQL 8 |
 | Autenticación | JWT propio (HS256, sin librerías externas) |
+| Seguridad | bcrypt (password_hash cost=10), PDO prepared statements |
 | Bundler | Vite 5 |
 | Servidor local | XAMPP |
 | Control de versiones | Git / GitHub |
@@ -46,8 +62,9 @@ AutoPrevent/
 │   │   ├── AuthController.php    # Login / Registro usuarios y admins
 │   │   ├── VehicleController.php # CRUD vehículos
 │   │   ├── HistoryController.php # Historial de mantenimiento
-│   │   ├── DiagnosticController.php # Diagnóstico colaborativo
-│   │   └── AdminController.php   # Panel de administración
+│   │   ├── DiagnosticController.php # Incidencias colaborativas
+│   │   ├── UserController.php    # Perfil de usuario (datos, contraseña, baja)
+│   │   └── AdminController.php   # Panel de administración + moderación
 │   ├── middleware/
 │   │   └── AuthMiddleware.php    # Verificación JWT y roles
 │   ├── models/
@@ -67,8 +84,9 @@ AutoPrevent/
 │       │   ├── Dashboard/        # Semáforo y resumen de vehículos
 │       │   ├── Garage/           # Gestión de vehículos (CRUD)
 │       │   ├── History/          # Historial de mantenimiento
-│       │   ├── Diagnostic/       # Diagnóstico colaborativo
-│       │   ├── Admin/            # Panel de administración
+│       │   ├── Diagnostic/       # Incidencias colaborativas (3 columnas)
+│       │   ├── Profile/          # Mi Perfil (datos, contraseña, baja de cuenta)
+│       │   ├── Admin/            # Panel de administración + moderación
 │       │   ├── WWAre/            # Quiénes somos
 │       │   └── Navbar.jsx
 │       ├── context/
