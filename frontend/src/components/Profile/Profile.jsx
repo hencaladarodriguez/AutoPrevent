@@ -65,7 +65,7 @@ function SeccionDatosPersonales({ usuario, onActualizado }) {
 
         try {
             const res = await api.put('/perfil', form);
-            setExito('Cambios guardados');
+            setExito('Perfil actualizado correctamente');
             onActualizado(res.data.usuario);
         } catch (err) {
             setError(err.response?.data?.error || 'Error al actualizar el perfil');
@@ -141,7 +141,7 @@ function SeccionDatosPersonales({ usuario, onActualizado }) {
                                 max={maxFechaNac}
                             />
                             <div className="form-text text-muted">
-                                Opcional · mínimo 16 años
+                                Debes tener entre 16 y 115 años
                             </div>
                         </div>
 
@@ -161,7 +161,7 @@ function SeccionDatosPersonales({ usuario, onActualizado }) {
                                 style={{ backgroundColor: '#f8f9fa', cursor: 'not-allowed' }}
                             />
                             <div className="form-text text-muted">
-                                El email no se puede cambiar.
+                                El correo electrónico no puede modificarse tras el registro.
                             </div>
                         </div>
 
@@ -218,7 +218,7 @@ function SeccionCambiarContrasena() {
                 password_actual: form.password_actual,
                 password_nuevo:  form.password_nuevo
             });
-            setExito('Contraseña cambiada');
+            setExito('Contraseña actualizada correctamente');
             setForm({ password_actual: '', password_nuevo: '', password_repetir: '' });
         } catch (err) {
             setError(err.response?.data?.error || 'Error al cambiar la contraseña');

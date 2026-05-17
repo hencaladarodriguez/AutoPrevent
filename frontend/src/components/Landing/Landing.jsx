@@ -20,7 +20,7 @@ export default function Landing() {
                     {usuario ? (
                         // si ya tiene sesion lo mandamos al panel
                         <Link to="/dashboard" className="btn btn-primary btn-lg px-5 fw-semibold">
-                            Ir al panel
+                            Ir al Panel de Control
                         </Link>
                     ) : (
                         <>
@@ -52,15 +52,15 @@ export default function Landing() {
                     <div className="row text-center text-white g-3">
                         <div className="col-md-4">
                             <div className="fw-semibold">Sistema Semáforo</div>
-                            <small className="opacity-75">Verde, amarillo o rojo: sabes cómo está el coche</small>
+                            <small className="opacity-75">Estado de tu vehículo de un vistazo</small>
                         </div>
                         <div className="col-md-4">
                             <div className="fw-semibold">Historial Técnico</div>
-                            <small className="opacity-75">Apunta cada revisión y no pierdas el hilo</small>
+                            <small className="opacity-75">Registra cada intervención</small>
                         </div>
                         <div className="col-md-4">
-                            <div className="fw-semibold">Incidencias</div>
-                            <small className="opacity-75">Ve qué le pasa a otros con el mismo modelo</small>
+                            <div className="fw-semibold">Diagnóstico Colaborativo</div>
+                            <small className="opacity-75">Comparte y consulta incidencias</small>
                         </div>
                     </div>
                 </div>

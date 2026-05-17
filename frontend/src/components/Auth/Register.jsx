@@ -59,7 +59,7 @@ export default function Register() {
                 {/* cabecera */}
                 <div className="text-center mb-4">
                     <h2 className="fw-bold">AutoPrevent</h2>
-                    <p className="text-muted">Únete a AutoPrevent</p>
+                    <p className="text-muted">Crea tu cuenta</p>
                 </div>
 
                 {/* mensaje de error */}

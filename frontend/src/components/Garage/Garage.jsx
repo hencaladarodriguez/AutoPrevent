@@ -188,7 +188,7 @@ function FormularioVehiculo({ vehiculoEditar, onGuardado, onCancelar }) {
                                 maxLength={17}
                             />
                             <div className={`form-text d-flex justify-content-between`}>
-                                <span className="text-muted">17 caracteres, sin I, O ni Q</span>
+                                <span className="text-muted">17 caracteres exactos (ISO 3779)</span>
                                 <span className={form.vin.length > 0 && form.vin.length !== 17 ? 'text-danger' : ''}>
                                     {form.vin.length}/17
                                 </span>
@@ -292,7 +292,7 @@ function ModalBorrar({ vehiculo, onConfirmar, onCancelar }) {
             <div className="card shadow p-4" style={{ maxWidth: '400px', width: '100%' }}>
                 <h5 className="fw-bold mb-2">¿Eliminar vehículo?</h5>
                 <p className="text-muted">
-                    Vas a eliminar el <strong>{vehiculo.nombre_marca} {vehiculo.nombre_modelo}</strong> con matrícula <strong>{vehiculo.matricula}</strong>. Esto no tiene vuelta atrás.
+                    Vas a eliminar el <strong>{vehiculo.nombre_marca} {vehiculo.nombre_modelo}</strong> con matrícula <strong>{vehiculo.matricula}</strong>. Esta acción no se puede deshacer.
                 </p>
                 <div className="d-flex gap-2 justify-content-end">
                     <button className="btn btn-outline-secondary" onClick={onCancelar}>
