@@ -86,6 +86,15 @@ class HistoryController {
             return;
         }
 
+        // la fecha del registro no puede ser anterior a la matriculación del vehículo
+        if (!empty($data['fecha']) && !empty($vehiculo['fecha_matriculacion'])) {
+            if ($data['fecha'] < $vehiculo['fecha_matriculacion']) {
+                http_response_code(400);
+                echo json_encode(["error" => "La fecha del registro no puede ser anterior a la matriculacion del vehiculo ({$vehiculo['fecha_matriculacion']})"]);
+                return;
+            }
+        }
+
         // campos opcionales
         $data['tipo_mantenimiento_id'] = $data['tipo_mantenimiento_id'] ?? null;
         $data['coste']  = $data['coste']  ?? null;
@@ -117,7 +126,7 @@ class HistoryController {
         }
 
         if ($this->history->delete($id)) {
-            echo json_encode(["mensaje" => "Registro eliminado correctamente"]);
+            echo json_encode(["mensaje" => "Registro eliminado"]);
         } else {
             http_response_code(500);
             echo json_encode(["error" => "Error al eliminar el registro"]);

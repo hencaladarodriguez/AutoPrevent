@@ -29,8 +29,15 @@ export function AuthProvider({ children }) {
         setUsuario(null);
     };
 
+    // actualiza los datos del usuario en contexto y localStorage tras editar el perfil
+    const updateUsuario = (nuevosDatos) => {
+        const actualizado = { ...usuario, ...nuevosDatos };
+        localStorage.setItem('usuario', JSON.stringify(actualizado));
+        setUsuario(actualizado);
+    };
+
     return (
-        <AuthContext.Provider value={{ usuario, login, logout }}>
+        <AuthContext.Provider value={{ usuario, login, logout, updateUsuario }}>
             {children}
         </AuthContext.Provider>
     );

@@ -73,6 +73,20 @@ function FormularioVehiculo({ vehiculoEditar, onGuardado, onCancelar }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+
+        // la fecha de matriculacion no puede ser anterior al año del vehiculo
+        if (form.fecha_matriculacion && form.anio) {
+            const anioMatricula = new Date(form.fecha_matriculacion).getFullYear();
+            if (anioMatricula < parseInt(form.anio)) {
+                setError(`La fecha de matriculación no puede ser anterior al año del vehículo (${form.anio})`);
+                return;
+            }
+            if (new Date(form.fecha_matriculacion) > new Date()) {
+                setError('La fecha de matriculación no puede ser futura');
+                return;
+            }
+        }
+
         setCargando(true);
 
         try {
@@ -148,8 +162,12 @@ function FormularioVehiculo({ vehiculoEditar, onGuardado, onCancelar }) {
                                 placeholder="1234ABC"
                                 value={form.matricula}
                                 onChange={handleChange}
+                                maxLength={10}
                                 required
                             />
+                            <div className="form-text text-end">
+                                {form.matricula.length}/10
+                            </div>
                         </div>
 
                         {/* vin */}
@@ -163,8 +181,18 @@ function FormularioVehiculo({ vehiculoEditar, onGuardado, onCancelar }) {
                                 className="form-control"
                                 placeholder="WVWZZZ1KZAM000000"
                                 value={form.vin}
-                                onChange={handleChange}
+                                onChange={e => {
+                                    const v = e.target.value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g, '');
+                                    handleChange({ target: { name: 'vin', value: v } });
+                                }}
+                                maxLength={17}
                             />
+                            <div className={`form-text d-flex justify-content-between`}>
+                                <span className="text-muted">17 caracteres, sin I, O ni Q</span>
+                                <span className={form.vin.length > 0 && form.vin.length !== 17 ? 'text-danger' : ''}>
+                                    {form.vin.length}/17
+                                </span>
+                            </div>
                         </div>
 
                         {/* año */}
@@ -222,8 +250,15 @@ function FormularioVehiculo({ vehiculoEditar, onGuardado, onCancelar }) {
                                 className="form-control"
                                 value={form.fecha_matriculacion}
                                 onChange={handleChange}
+                                min={form.anio ? `${form.anio}-01-01` : undefined}
+                                max={new Date().toISOString().split('T')[0]}
                                 required
                             />
+                            {form.anio && (
+                                <div className="form-text text-muted">
+                                    No puede ser anterior al 01/01/{form.anio} ni futura
+                                </div>
+                            )}
                         </div>
 
                     </div>
@@ -257,7 +292,7 @@ function ModalBorrar({ vehiculo, onConfirmar, onCancelar }) {
             <div className="card shadow p-4" style={{ maxWidth: '400px', width: '100%' }}>
                 <h5 className="fw-bold mb-2">¿Eliminar vehículo?</h5>
                 <p className="text-muted">
-                    Vas a eliminar el <strong>{vehiculo.nombre_marca} {vehiculo.nombre_modelo}</strong> con matrícula <strong>{vehiculo.matricula}</strong>. Esta acción no se puede deshacer.
+                    Vas a eliminar el <strong>{vehiculo.nombre_marca} {vehiculo.nombre_modelo}</strong> con matrícula <strong>{vehiculo.matricula}</strong>. Esto no tiene vuelta atrás.
                 </p>
                 <div className="d-flex gap-2 justify-content-end">
                     <button className="btn btn-outline-secondary" onClick={onCancelar}>

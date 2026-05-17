@@ -45,7 +45,10 @@ export default function Navbar() {
                                 <NavLink className="nav-link" to="/historial">Historial</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/diagnostico">Diagnóstico</NavLink>
+                                <NavLink className="nav-link" to="/diagnostico">Incidencias</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/perfil">Mi Perfil</NavLink>
                             </li>
                         </>
                     )}

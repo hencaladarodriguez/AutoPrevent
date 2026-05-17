@@ -4,7 +4,8 @@ import Navbar from '../Navbar';
 import api from '../../services/api';
 
 // recibe modeloId para precargar los tipos de mantenimiento específicos de ese modelo
-function FormularioHistorial({ vehiculoId, modeloId, onGuardado, onCancelar }) {
+// fechaMatriculacion limita la fecha mínima que puede tener un registro
+function FormularioHistorial({ vehiculoId, modeloId, fechaMatriculacion, onGuardado, onCancelar }) {
 
     const [tipos, setTipos]       = useState([]);
     const [form, setForm]         = useState({
@@ -101,8 +102,15 @@ function FormularioHistorial({ vehiculoId, modeloId, onGuardado, onCancelar }) {
                                 className="form-control"
                                 value={form.fecha}
                                 onChange={handleChange}
+                                min={fechaMatriculacion || undefined}
+                                max={new Date().toISOString().split('T')[0]}
                                 required
                             />
+                            {fechaMatriculacion && (
+                                <div className="form-text text-muted">
+                                    No puede ser anterior a la matriculación ({new Date(fechaMatriculacion + 'T12:00:00').toLocaleDateString('es-ES')})
+                                </div>
+                            )}
                         </div>
 
                         {/* descripcion */}
@@ -350,6 +358,7 @@ export default function History() {
                     <FormularioHistorial
                         vehiculoId={vehiculoSel.id}
                         modeloId={vehiculoSel.modelo_id}
+                        fechaMatriculacion={vehiculoSel.fecha_matriculacion}
                         onGuardado={handleGuardado}
                         onCancelar={() => setMostrarForm(false)}
                     />

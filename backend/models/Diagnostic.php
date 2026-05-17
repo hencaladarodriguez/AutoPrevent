@@ -20,11 +20,12 @@ class Diagnostic {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // la incidencia solo guarda vehiculo_id, así que necesito el JOIN para filtrar por modelo
+    // incidencias de la comunidad para un modelo (todas, ordenadas por votos)
     public function getIncidencias($modelo_id) {
-        $query = "SELECT i.*, v.anio ";
+        $query  = "SELECT i.*, v.anio, u.nombre as autor ";
         $query .= "FROM incidencias_usuarios i ";
         $query .= "JOIN vehiculos v ON i.vehiculo_id = v.id ";
+        $query .= "JOIN usuarios u ON i.usuario_id = u.id ";
         $query .= "WHERE v.modelo_id = :modelo_id ";
         $query .= "ORDER BY i.votos DESC, i.fecha_registro DESC";
 
@@ -34,23 +35,68 @@ class Diagnostic {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // crear incidencia
-    public function createIncidencia($data) {
-        $query = "INSERT INTO incidencias_usuarios ";
-        $query .= "(vehiculo_id, titulo, descripcion, kilometraje, fecha) ";
-        $query .= "VALUES (:vehiculo_id, :titulo, :descripcion, :kilometraje, :fecha)";
+    // incidencias propias del usuario para un modelo (columna "mis incidencias")
+    public function getIncidenciasByUser($modelo_id, $usuario_id) {
+        $query  = "SELECT i.*, v.anio ";
+        $query .= "FROM incidencias_usuarios i ";
+        $query .= "JOIN vehiculos v ON i.vehiculo_id = v.id ";
+        $query .= "WHERE v.modelo_id = :modelo_id ";
+        $query .= "AND i.usuario_id = :usuario_id ";
+        $query .= "ORDER BY i.fecha_registro DESC";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':modelo_id',  $modelo_id);
+        $stmt->bindParam(':usuario_id', $usuario_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // crear incidencia — guarda usuario_id para controlar autoría
+    public function createIncidencia($data, $usuario_id) {
+        $query  = "INSERT INTO incidencias_usuarios ";
+        $query .= "(vehiculo_id, usuario_id, titulo, descripcion, kilometraje, fecha) ";
+        $query .= "VALUES (:vehiculo_id, :usuario_id, :titulo, :descripcion, :kilometraje, :fecha)";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':vehiculo_id', $data['vehiculo_id']);
-        $stmt->bindParam(':titulo', $data['titulo']);
+        $stmt->bindParam(':usuario_id',  $usuario_id);
+        $stmt->bindParam(':titulo',      $data['titulo']);
         $stmt->bindParam(':descripcion', $data['descripcion']);
         $stmt->bindParam(':kilometraje', $data['kilometraje']);
-        $stmt->bindParam(':fecha', $data['fecha']);
+        $stmt->bindParam(':fecha',       $data['fecha']);
 
         if ($stmt->execute()) {
             return $this->db->lastInsertId();
         }
         return false;
+    }
+
+    // editar incidencia — solo el creador puede editarla
+    public function updateIncidencia($id, $data, $usuario_id) {
+        $query  = "UPDATE incidencias_usuarios ";
+        $query .= "SET titulo = :titulo, descripcion = :descripcion, kilometraje = :kilometraje, fecha = :fecha ";
+        $query .= "WHERE id = :id AND usuario_id = :usuario_id";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':titulo',      $data['titulo']);
+        $stmt->bindParam(':descripcion', $data['descripcion']);
+        $stmt->bindParam(':kilometraje', $data['kilometraje']);
+        $stmt->bindParam(':fecha',       $data['fecha']);
+        $stmt->bindParam(':id',          $id);
+        $stmt->bindParam(':usuario_id',  $usuario_id);
+
+        $stmt->execute();
+        return $stmt->rowCount() > 0;
+    }
+
+    // eliminar incidencia — solo el creador puede borrarla
+    public function deleteIncidencia($id, $usuario_id) {
+        $query = "DELETE FROM incidencias_usuarios WHERE id = :id AND usuario_id = :usuario_id";
+        $stmt  = $this->db->prepare($query);
+        $stmt->bindParam(':id',         $id);
+        $stmt->bindParam(':usuario_id', $usuario_id);
+        $stmt->execute();
+        return $stmt->rowCount() > 0;
     }
 
     // el voto es un proceso de dos pasos: primero comprobamos duplicado, luego insertamos y sumamos

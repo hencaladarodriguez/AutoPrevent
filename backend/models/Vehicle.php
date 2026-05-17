@@ -72,6 +72,22 @@ class Vehicle {
         return false;
     }
 
+    // comprueba si un vin ya esta en uso por otro vehiculo activo
+    // exclude_id permite ignorar el vehiculo que se esta editando
+    public function vinExiste($vin, $exclude_id = null) {
+        $query  = "SELECT id FROM " . $this->table . " WHERE vin = :vin AND activo = 1";
+        if ($exclude_id) {
+            $query .= " AND id != :exclude_id";
+        }
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':vin', $vin);
+        if ($exclude_id) {
+            $stmt->bindParam(':exclude_id', $exclude_id);
+        }
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+    }
+
     // actualizar un vehiculo
     public function update($id, $data, $usuario_id) {
         $query  = "UPDATE " . $this->table . " SET ";

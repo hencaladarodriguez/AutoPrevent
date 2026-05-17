@@ -9,6 +9,7 @@ import Dashboard    from './components/Dashboard/Dashboard';
 import Garage       from './components/Garage/Garage';
 import History      from './components/History/History';
 import Diagnostic   from './components/Diagnostic/Diagnostic';
+import Profile      from './components/Profile/Profile';
 import AdminLogin   from './components/Admin/AdminLogin';
 import AdminPanel   from './components/Admin/AdminPanel';
 
@@ -54,6 +55,9 @@ function App() {
                     } />
                     <Route path="/diagnostico" element={
                         <RutaPrivada><Diagnostic /></RutaPrivada>
+                    } />
+                    <Route path="/perfil" element={
+                        <RutaPrivada><Profile /></RutaPrivada>
                     } />
 
                     {/* ruta privada de admin */}

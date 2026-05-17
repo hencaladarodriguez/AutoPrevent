@@ -85,10 +85,17 @@ body {
     font-weight: 500;
 }
 
-.navbar-ap .nav-link:hover,
+.navbar-ap .nav-link:hover {
+    color: var(--ap-oscuro) !important;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+}
+
 .navbar-ap .nav-link.active {
     color: var(--ap-oscuro) !important;
-    text-decoration: underline;
+    background-color: rgba(0, 0, 0, 0.18);
+    border-radius: 6px;
+    font-weight: 700;
 }
 
 .navbar-ap .navbar-toggler {

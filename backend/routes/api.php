@@ -38,7 +38,9 @@ switch ($action) {
     // admin
     case 'POST admin':
     case 'GET admin':
-        $sub = $segments[1] ?? '';
+    case 'DELETE admin':
+        $sub   = $segments[1] ?? '';
+        $subId = $segments[2] ?? null;
         switch ($sub) {
             case 'login':
                 require_once 'controllers/AuthController.php';
@@ -63,6 +65,12 @@ switch ($action) {
                         break;
                     case 'POST fallos':
                         $admin->createFallo();
+                        break;
+                    case 'GET incidencias':
+                        $admin->getIncidencias();
+                        break;
+                    case 'DELETE incidencias':
+                        $admin->deleteIncidencia($subId);
                         break;
                     default:
                         http_response_code(404);
@@ -201,6 +209,39 @@ switch ($action) {
         $controller = new DiagnosticController();
         $sub = $segments[2] ?? null;
         $sub === 'votar' ? $controller->votar($id) : $controller->create();
+        break;
+
+    case 'PUT diagnostico':
+        require_once 'controllers/DiagnosticController.php';
+        $controller = new DiagnosticController();
+        $controller->update($id);
+        break;
+
+    case 'DELETE diagnostico':
+        require_once 'controllers/DiagnosticController.php';
+        $controller = new DiagnosticController();
+        $controller->delete($id);
+        break;
+
+    // perfil de usuario
+    case 'GET perfil':
+        require_once 'controllers/UserController.php';
+        $controller = new UserController();
+        $controller->getProfile();
+        break;
+
+    case 'PUT perfil':
+        require_once 'controllers/UserController.php';
+        $controller = new UserController();
+        // PUT /perfil/password — cambio de contraseña
+        // PUT /perfil — actualizar datos personales
+        $id === 'password' ? $controller->updatePassword() : $controller->updateProfile();
+        break;
+
+    case 'DELETE perfil':
+        require_once 'controllers/UserController.php';
+        $controller = new UserController();
+        $controller->deleteAccount();
         break;
 
     // -- RUTA NO ENCONTRADA --

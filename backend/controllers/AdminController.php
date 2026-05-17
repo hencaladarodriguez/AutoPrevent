@@ -41,7 +41,7 @@ class AdminController {
         if ($stmt->execute()) {
             http_response_code(201);
             echo json_encode([
-                "mensaje" => "Marca creada correctamente",
+                "mensaje" => "Marca añadida",
                 "id"      => $this->db->lastInsertId()
             ]);
         } else {
@@ -72,12 +72,77 @@ class AdminController {
         if ($stmt->execute()) {
             http_response_code(201);
             echo json_encode([
-                "mensaje" => "Modelo creado correctamente",
+                "mensaje" => "Modelo añadido",
                 "id"      => $this->db->lastInsertId()
             ]);
         } else {
             http_response_code(500);
             echo json_encode(["error" => "Error al crear el modelo"]);
+        }
+    }
+
+    // GET /admin/fallos — lista los fallos de un modelo
+    public function getFallos() {
+        AuthMiddleware::verifyAdmin();
+        $modelo_id = $_GET['modelo_id'] ?? null;
+
+        if (!$modelo_id) {
+            http_response_code(400);
+            echo json_encode(["error" => "modelo_id es obligatorio"]);
+            return;
+        }
+
+        $query = "SELECT * FROM fallos_conocidos WHERE modelo_id = :modelo_id ORDER BY gravedad DESC";
+        $stmt  = $this->db->prepare($query);
+        $stmt->bindParam(':modelo_id', $modelo_id);
+        $stmt->execute();
+        echo json_encode(["fallos" => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+    }
+
+    // GET /admin/incidencias?modelo_id=X — lista incidencias de usuarios para moderar
+    public function getIncidencias() {
+        AuthMiddleware::verifyAdmin();
+        $modelo_id = $_GET['modelo_id'] ?? null;
+
+        if (!$modelo_id) {
+            http_response_code(400);
+            echo json_encode(["error" => "modelo_id es obligatorio"]);
+            return;
+        }
+
+        $query  = "SELECT i.*, u.nombre as autor, u.email as autor_email, v.matricula ";
+        $query .= "FROM incidencias_usuarios i ";
+        $query .= "JOIN vehiculos v ON i.vehiculo_id = v.id ";
+        $query .= "JOIN usuarios u ON i.usuario_id = u.id ";
+        $query .= "WHERE v.modelo_id = :modelo_id ";
+        $query .= "ORDER BY i.fecha_registro DESC";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':modelo_id', $modelo_id);
+        $stmt->execute();
+        echo json_encode(["incidencias" => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+    }
+
+    // DELETE /admin/incidencias/{id} — borrado de incidencia spam por admin
+    public function deleteIncidencia($id) {
+        AuthMiddleware::verifyAdmin();
+
+        if (!$id) {
+            http_response_code(400);
+            echo json_encode(["error" => "ID de incidencia obligatorio"]);
+            return;
+        }
+
+        $query = "DELETE FROM incidencias_usuarios WHERE id = :id";
+        $stmt  = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            echo json_encode(["mensaje" => "Incidencia eliminada"]);
+        } else {
+            http_response_code(404);
+            echo json_encode(["error" => "Incidencia no encontrada"]);
         }
     }
 
@@ -107,7 +172,7 @@ class AdminController {
         if ($stmt->execute()) {
             http_response_code(201);
             echo json_encode([
-                "mensaje" => "Fallo conocido añadido correctamente",
+                "mensaje" => "Fallo añadido",
                 "id"      => $this->db->lastInsertId()
             ]);
         } else {

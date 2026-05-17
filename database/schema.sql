@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS usuarios (
     email VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    activo TINYINT(1) DEFAULT 1
+    activo TINYINT(1) DEFAULT 1,
+    fecha_nacimiento DATE NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------
@@ -65,8 +66,8 @@ CREATE TABLE IF NOT EXISTS vehiculos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
     modelo_id INT NOT NULL,
-    matricula VARCHAR(20) NOT NULL UNIQUE,
-    vin VARCHAR(17),
+    matricula VARCHAR(10) NOT NULL UNIQUE,
+    vin VARCHAR(17) UNIQUE,
     anio INT NOT NULL,
     kilometraje_actual INT NOT NULL DEFAULT 0,
     fecha_matriculacion DATE NOT NULL,
@@ -133,13 +134,15 @@ CREATE TABLE IF NOT EXISTS fallos_conocidos (
 CREATE TABLE IF NOT EXISTS incidencias_usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     vehiculo_id INT NOT NULL,
+    usuario_id INT NOT NULL,
     titulo VARCHAR(200) NOT NULL,
     descripcion TEXT NOT NULL,
     kilometraje INT,
     fecha DATE NOT NULL,
     votos INT DEFAULT 0,
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(id) ON DELETE CASCADE
+    FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------

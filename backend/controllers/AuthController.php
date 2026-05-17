@@ -56,7 +56,7 @@ class AuthController {
 
             http_response_code(201);
             echo json_encode([
-                "mensaje" => "Usuario registrado correctamente",
+                "mensaje" => "Registro completado",
                 "token" => $token,
                 "usuario" => [
                     "id" => $user_id,
@@ -106,7 +106,7 @@ class AuthController {
         $token = JWT::generate($usuario['id'], $usuario['email'], 'user');
 
         echo json_encode([
-            "mensaje" => "Login Correcto",
+            "mensaje" => "sesion iniciada",
             "token" => $token,
             "usuario" => [
                 "id" => $usuario['id'],
@@ -149,7 +149,7 @@ class AuthController {
         $token = JWT::generate($admin['id'], $admin['email'], 'admin');
 
         echo json_encode([
-            "mensaje" => "Login de admin correcto",
+            "mensaje" => "sesion admin iniciada",
             "token" => $token,
             "admin" => [
                 "id" => $admin['id'],
