@@ -256,7 +256,7 @@ function FormularioVehiculo({ vehiculoEditar, onGuardado, onCancelar }) {
                             />
                             {form.anio && (
                                 <div className="form-text text-muted">
-                                    No puede ser anterior al 01/01/{form.anio} ni futura
+                                    No puede ser anterior al 01/01/{form.anio} ni futura a fecha actual
                                 </div>
                             )}
                         </div>
