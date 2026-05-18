@@ -1,6 +1,10 @@
 Options -Indexes
 RewriteEngine On
 RewriteBase /AutoPrevent/backend/
+
+# Pasar el header Authorization a PHP (necesario en Apache CGI/FastCGI)
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
 RewriteCond %{REQUEST_URI} !^/AutoPrevent/backend/index\.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

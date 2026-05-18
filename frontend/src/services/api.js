@@ -11,11 +11,15 @@ const api = axios.create({
 });
 
 // interceptor para añadir el token en cada peticion sin tener que hacerlo a mano
+// las rutas /admin/* gestionan su propio token (adminToken) desde el componente
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+        const isAdminRoute = config.url?.startsWith('/admin');
+        if (!isAdminRoute) {
+            const token = localStorage.getItem('token');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
         }
         return config;
     },
@@ -24,11 +28,13 @@ api.interceptors.request.use(
     }
 );
 
-// si el servidor devuelve 401 limpiamos localStorage y redirigimos al login
+// si el servidor devuelve 401 en rutas de usuario, limpiamos sesion y redirigimos
+// las rutas /admin/* quedan excluidas para que el componente muestre su propio error
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response && error.response.status === 401) {
+        const isAdminRoute = error.config?.url?.startsWith('/admin');
+        if (!isAdminRoute && error.response && error.response.status === 401) {
             localStorage.removeItem('token');
             localStorage.removeItem('usuario');
             window.location.href = '/login';

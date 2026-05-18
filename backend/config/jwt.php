@@ -67,15 +67,29 @@ class JWT {
     }
 
     // extrae el token del header Authorization
+    // usa dos fuentes para cubrir Apache-module y CGI/FastCGI
     public static function getFromHeader() {
-        $headers = getallheaders();
+        $authHeader = null;
 
-        if (!isset($headers['Authorization'])) {
+        // primera opcion: getallheaders() (Apache mod_php)
+        if (function_exists('getallheaders')) {
+            $headers = getallheaders();
+            if (isset($headers['Authorization'])) {
+                $authHeader = $headers['Authorization'];
+            }
+        }
+
+        // segunda opcion: $_SERVER (CGI / FastCGI, o via RewriteRule en .htaccess)
+        if (!$authHeader && isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+        }
+
+        if (!$authHeader) {
             return false;
         }
 
         // el header viene como "Bearer TOKEN"
-        $parts = explode(' ', $headers['Authorization']);
+        $parts = explode(' ', $authHeader);
 
         if (count($parts) !== 2 || $parts[0] !== 'Bearer') {
             return false;
